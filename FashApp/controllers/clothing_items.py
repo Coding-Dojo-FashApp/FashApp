@@ -1,15 +1,14 @@
 from FashApp import app
-from flask import render_template,request, redirect,session
+from flask import render_template,request, redirect,session, url_for, flash
 from FashApp.models import user
 from FashApp.models import clothing_category
 from FashApp.models import clothing_item
 from datetime import datetime
 from flask_bcrypt import Bcrypt
-from flask import flash
 bcrypt = Bcrypt(app)
 dateFormat = "%m/%d/%Y %I:%M %p"
 import os
-import urllib.request
+
 
 from werkzeug.utils import secure_filename
 
