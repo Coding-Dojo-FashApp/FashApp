@@ -36,7 +36,7 @@ class User:
         elif not EMAIL_REGEX.match(request['email']) :
             flash("invaild email address",'regError')
             is_valid = False
-        if len(request['password']) < 1:
+        if len(request['password']) < 1: 
             flash("please enter a last_name",'regError')
             is_valid = False
         elif len(request['password']) < 9:
