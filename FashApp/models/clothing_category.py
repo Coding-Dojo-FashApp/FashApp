@@ -25,7 +25,7 @@ class Clothing_catagories:
         
         for row in results:
             category = cls(row)
-            # print(category)
+            # print(category) 
             user_data = {
                 "id" : row["users.id"],
                 "first_name" : row["first_name"],
@@ -38,9 +38,8 @@ class Clothing_catagories:
             }
             
             category.user = user.User(user_data)
-            # print(category.user.id)
             catagories.append(category)
-            print(catagories[0].id)
+            # print(catagories)
         return catagories
     
     @classmethod 
@@ -55,7 +54,7 @@ class Clothing_catagories:
             catagories.append(row)
 
 
-            # print(catagories)
+            print(catagories)
         return catagories
     
     
