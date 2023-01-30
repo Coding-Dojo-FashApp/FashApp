@@ -26,11 +26,11 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Dropdown
                         </a>
-                        <ul class="dropdown-menu" style="width: 600px; ">
+                        <ul class="dropdown-menu" >
                             <form action="/create_category" method="post">
                                 <input type="hidden" name="user_id" value="{{current_user.id}}">
                                 {% for x in all_category %}
-                                <a href="/getintocategory/{{x.user.id}}">{{x.user}}</a>
+                                <a class = "" href="/getintocategory/{{x.user.id}}">{{x.name}}</a>
                                 {%endfor%}
                                 
                                 <label for="name">Name</label>

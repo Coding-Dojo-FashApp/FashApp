@@ -7,7 +7,8 @@ class Clothing_catagories:
     DB = "fashion_inventory"
     
     def __init__(self, data):
-        self.id = data['name']
+        self.id = data['id']
+        self.name = data['name']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.user_id = None
