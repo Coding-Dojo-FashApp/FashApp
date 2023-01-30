@@ -17,6 +17,7 @@ class Clothing_items:
         self.img_path = data['img_path']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at'] 
+        self.user = []
  
 
     @classmethod  
@@ -28,8 +29,26 @@ class Clothing_items:
     
     @classmethod
     def show_clothing_by_user(cls,data):
-        query =  "select * from clothing_items left join users on clothing_items.user_id where clothing_catagory_id = %(id)s" 
+        query =  "SELECT * FROM clothing_catagories LEFT JOIN clothing_items ON clothing_items.clothing_catagory_id= clothing_catagories.id left join users on clothing_items.user_id = users.id WHERE clothing_catagories.id = %(id)s and users.id = %(user_id)s" 
         results = connectToMySQL(mydb).query_db(query,data)
-        print (results)
-        return results
+        catagories = []
+        
+        for row in results:
+            category = cls(row)
+            # print(category) 
+            user_data = {
+                "id" : row["users.id"],
+                "first_name" : row["first_name"],
+                "last_name" : row["last_name"],
+                "email" : row["email"],
+                "password" : row["password"],
+                "created_at" : row["users.created_at"],
+                "updated_at" : row["users.updated_at"]
+
+            }
+            
+            category.user = user.User(user_data)
+            catagories.append(category)
+
+        return catagories
 

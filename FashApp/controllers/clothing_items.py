@@ -27,11 +27,13 @@ def new_category():
     clothing_category.Clothing_catagories.save(data)
     return redirect('/home')
 
-@app.route('/getintocategory/<int:id>', methods=['get'])
-def getintocategory(id):
+@app.route('/getintocategory/<int:id>/<int:user_id>/', methods=['get'])
+def getintocategory(id,user_id):
     data = {
-        "id": id
+        "id": id,
+        "user_id" : user_id
     }
+    print(data)
     return render_template('new_item.html',current_user = user.User.get_one({'id': session["users_id"]}), all_category = clothing_category.Clothing_catagories.get_all(), clothingcatergoryid=clothing_category.Clothing_catagories.get_category_by_id(id), all_clothing = clothing_item.Clothing_items.show_clothing_by_user(data))
 
 @app.route('/new_clothing', methods = ['post'])

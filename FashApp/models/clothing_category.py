@@ -54,8 +54,8 @@ class Clothing_catagories:
             catagories.append(row)
 
 
-            print(catagories)
-        return catagories
+            # print(catagories)
+        return results
     
     
     @classmethod
