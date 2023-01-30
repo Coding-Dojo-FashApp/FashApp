@@ -30,7 +30,7 @@
                             <form action="/create_category" method="post">
                                 <input type="hidden" name="user_id" value="{{current_user.id}}">
                                 {% for x in all_category %}
-                                <a class = "" href="/getintocategory/{{x.user.id}}">{{x.name}}</a>
+                                <a href="/getintocategory/{{x.id}}/{{current_user.id}}">{{x.name}}</a>
                                 {%endfor%}
                                 <!-- <p>{{all_category[0].user.last_name}}</p> -->
                                 <label for="name">Name</label>
