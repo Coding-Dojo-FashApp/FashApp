@@ -30,11 +30,7 @@
                             <form action="/create_category" method="post">
                                 <input type="hidden" name="user_id" value="{{current_user.id}}">
                                 {% for x in all_category %}
-<<<<<<< HEAD
                                 <a class = "" href="/getintocategory/{{x.user.id}}">{{x.name}}</a>
-=======
-                                <a href="/getintocategory/{{x.id}}">{{x.name}}</a>
->>>>>>> 530499ee39a8b89fb24230c519c8d6c24de85000
                                 {%endfor%}
                                 <!-- <p>{{all_category[0].user.last_name}}</p> -->
                                 <label for="name">Name</label>
