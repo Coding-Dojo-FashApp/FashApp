@@ -20,10 +20,10 @@ def allowed_file(filename):
 
 @app.route('/create_category', methods = ['Post']) 
 def new_category():
-    data = {
+    data = { 
         "user_id": request.form['user_id'],
         "name": request.form['name']
-    }
+    } 
     clothing_category.Clothing_catagories.save(data)
     return redirect('/home')
 
@@ -36,11 +36,17 @@ def getintocategory(id,user_id):
     print(data)
     return render_template('new_item.html',current_user = user.User.get_one({'id': session["users_id"]}), all_category = clothing_category.Clothing_catagories.get_all(), clothingcatergoryid=clothing_category.Clothing_catagories.get_category_by_id(id), all_clothing = clothing_item.Clothing_items.show_clothing_by_user(data))
 
-@app.route('/new_clothing', methods = ['post'])
-def create_item():
+@app.route('/new_clothing/<int:id>/<int:user_id>/', methods = ['post'])
+def create_item(id,user_id):
+	newdata = {
+		"id": id,
+		"user_id" : user_id
+		}
 	if 'file' not in request.files: 
 		flash('No file part')
-		return redirect(request.url)
+	if not clothing_item.Clothing_items.validate_post(request.form):
+		
+		return redirect(f'/getintocategory/{id}/{user_id}/')
 	file = request.files['file']
 	if file.filename == '': 
 		flash('No image selected for uploading')

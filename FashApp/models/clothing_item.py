@@ -20,6 +20,57 @@ class Clothing_items:
         self.user = []
  
 
+    @staticmethod
+    def validate_post(res):
+        is_valid = True
+        if len(res['name']) < 0:
+            flash("clothing name is Required")
+            is_valid = False
+        elif len(res['name']) < 3:
+            flash("clothing name must be at least 3 characters.")
+            is_valid = False
+        if len(res['material']) < 0:
+            is_valid = False
+            flash(" material is Required")
+        elif len(res['material']) < 3:
+            is_valid = False
+            flash("material must be at least 3 characters.")
+            is_valid = False
+        if int(res['cost']) <= 0:
+            flash("price is Required")
+            is_valid = False
+        elif int(res['cost']) <= 3:
+            flash("price must must be at least 3 characters.")
+            is_valid = False
+        if len(res['style']) < 0:
+            flash(" style is Required")
+            is_valid = False 
+        elif len(res['style']) < 3:
+            flash("style must be at least 3 characters.")
+            is_valid = False
+        if len(res['primary_color']) < 0:
+            flash("primary_color  is Required")
+            is_valid = False
+        elif len(res['primary_color']) < 3:
+            flash("primary_color must be at least 3 characters.")
+            is_valid = False
+        if len(res['secondary_color']) < 0:
+            is_valid = False
+            flash(" secondary_color is Required")
+        elif len(res['secondary_color']) < 3:
+            is_valid = False
+            flash("secondary_color must be at least 3 characters.")
+            is_valid = False
+        if len(res['location_aquired']) < 0:
+            is_valid = False
+            flash(" location_aquired is Required")
+        elif len(res['location_aquired']) < 3:
+            is_valid = False
+            flash("location_aquired must be at least 3 characters.")
+            is_valid = False
+        return is_valid
+
+
     @classmethod  
     def insert_clothing_items(cls,data):
         query = "INSERT INTO clothing_items(name,cost,material,style,primary_color,secondary_color,location_aquired,img_path,created_at,updated_at,clothing_catagory_id,user_id) VALUES (%(name)s,%(cost)s,%(material)s,%(style)s,%(primary_color)s,%(secondary_color)s,%(location_aquired)s,%(img_path)s, NOW(), NOW(), %(clothing_catagory_id)s,%(user_id)s);"

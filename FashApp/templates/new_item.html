@@ -63,7 +63,7 @@
                             {% with messages = get_flashed_messages() %}
                             {% if messages %}
                             <ul>
-                            {% for message in messages %}
+                            {% for message in messages %} 
                                 <li>{{ message }}</li>
                             {% endfor %} 
                             </ul>
@@ -75,7 +75,9 @@
                                 <img src="{{ url_for('display_image', filename=filename) }}">
                             </div>
                             {% endif %} 
-    <form method="post" action="/new_clothing" enctype="multipart/form-data" style="display: flex; margin: 20px;">
+                            {% for x in all_category %}
+                            <form method="post" action="/new_clothing/{{x.id}}/{{current_user.id}}" enctype="multipart/form-data" style="display: flex; margin: 20px;">
+                            {%endfor%}
                             <dl style="display: flex; width: 100%; border-style: solid; border-radius: 5px;">
                             <p> 
                               <input type="hidden" name="user_id" value="{{current_user.id}}">
