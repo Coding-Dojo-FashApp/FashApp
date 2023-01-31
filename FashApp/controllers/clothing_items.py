@@ -69,15 +69,27 @@ def create_item(id,user_id):
 		"user_id": request.form['user_id'],
         "clothing_catagory_id": request.form['clothing_catagory_id']
     }
-    
-		clothing_item.Clothing_items.insert_clothing_items(data)
-		print(file.filename, "this is the file name")
-	
-		return redirect('/home') 
-	else:
-		flash('Allowed image types are -> png, jpg, jpeg, gif') 
-		return redirect(request.url)
+    mydb.clothing_items.update(data)
+    return redirect('/clothingitems')
+
+@app.route('/clothingitem/show/<int:id>')
+def show(id):
+    data ={ 
+        "id":id
+    }
+    return render_template("view_outfit_items.html",clothing_item=mydb.clothing_items.get_one(data),current_user = users.User.getById({'id': session['user_id']}))
+
+@app.route("/clothingitems/create")
+def clothingitems_create_page():
+    if 'user_id' in session:
+        return render_template('create_outfit.html', 
+        current_user = user.User.getById({'id': session['user_id']}),
+        all_clothingitems = mydb.clothing_items.get_all_clothingitems()
+        )
+    return render_template("index.html")
 
 @app.route('/display/<filename>')
 def display_image(filename):
 	return redirect(url_for('static', filename='uploads/' + filename), code=301)
+
+
