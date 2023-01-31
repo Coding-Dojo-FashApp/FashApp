@@ -60,10 +60,3 @@ def dashboard():
 
         return render_template('index.html',current_user = user.User.get_one({'id': session["users_id"]}), all_category = clothing_category.Clothing_catagories.get_all() )
     return redirect('/')
-
-
-
-# Kevin Added this to test the profile page.
-@app.route('/profile')
-def profile():
-    return(render_template('profile.html'))
