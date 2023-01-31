@@ -48,14 +48,20 @@ class Clothing_catagories:
         data = {"id" : id}
         query = "SELECT * FROM clothing_catagories LEFT JOIN users ON clothing_catagories.user_id = users.id WHERE clothing_catagories.id = %(id)s"
         results = connectToMySQL(cls.DB).query_db(query, data)
-        catagories = []
-        
-        for row in results:
-            catagories.append(row)
-
-
-            # print(catagories)
-        return results
+        row = results[0]
+        category = cls(row)
+        user_data = {
+            "id" : row["users.id"],
+            "first_name" : row["first_name"],
+            "last_name" : row["last_name"],
+            "email" : row["email"],
+            "password" : row["password"],
+            "created_at" : row["users.created_at"],
+            "updated_at" : row["users.updated_at"]
+        }
+        category.user = user.User(user_data)
+        print(category)
+        return category
     
     
     @classmethod
