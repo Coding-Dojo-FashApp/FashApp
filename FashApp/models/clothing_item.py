@@ -84,7 +84,7 @@ class Clothing_items:
         results = connectToMySQL(mydb).query_db(query,data)
         catagories = []
         
-        for row in results:
+        for row in results: 
             category = cls(row)
             # print(category) 
             user_data = {

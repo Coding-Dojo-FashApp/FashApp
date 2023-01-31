@@ -62,7 +62,7 @@
                             <p>
                             {% with messages = get_flashed_messages() %}
                             {% if messages %}
-                            <ul>
+                            <ul> 
                             {% for message in messages %} 
                                 <li>{{ message }}</li>
                             {% endfor %} 
@@ -81,8 +81,8 @@
                             <dl style="display: flex; width: 100%; border-style: solid; border-radius: 5px;">
                             <p> 
                               <input type="hidden" name="user_id" value="{{current_user.id}}">
-                              <input type="hidden" name="clothing_catagory_id" value="{{clothingcatergoryid[0].id}}">
-                              <p>{{clothingcatergoryid[0].id}}</p>
+                              <input type="hidden" name="clothing_catagory_id" value="{{clothingcatergoryid.id}}">
+                              <p>{{clothingcatergoryid.id}}</p>
                                 <div class="mb-3" style="margin:10px;">
                                     <label for="name" class="form-label">clothing name</label>
                                     <input type="text" class="form-control" name="name">
