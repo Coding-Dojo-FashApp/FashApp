@@ -24,18 +24,23 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          Dropdown
+                          Categories
                         </a>
                         <ul class="dropdown-menu" >
                             <form action="/create_category" method="post">
                                 <input type="hidden" name="user_id" value="{{current_user.id}}">
-                                {% for x in all_category %}
-                                <a href="/getintocategory/{{x.id}}/{{current_user.id}}">{{x.name}}</a>
-                                {%endfor%}
+                                <ul>
+                                    {% for x in all_category %}
+                                    <li>
+                                        <a href="/getintocategory/{{x.id}}/{{current_user.id}}">{{x.name}}</a>
+                                    </li>
+                                    {%endfor%}
+                                </ul>
+                                    
                                 <!-- <p>{{all_category[0].user.last_name}}</p> -->
-                                <label for="name">Name</label>
+                                <label for="name">Name of New Category</label>
                                 <input type="text" name="name" >
-                                <button>Create_category</button>
+                                <button class = "btn btn-primary">Create_category</button>
                             </form>
                             
                         </ul> 

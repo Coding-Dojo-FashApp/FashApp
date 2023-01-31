@@ -44,86 +44,68 @@
     </div> 
 </nav>
       <div>
-        <input type="hidden" name="user_id" value="{{current_user.id}}">
-            <!-- <h1>All Post</h1> -->
             {%for z in all_clothing%}
-        <div class="box1">
-          
             <div class="box2">
             <img class = "clothing-image" src="/static/uploads/{{z.img_path}}/" alt="{{z.img_path}}" >
-            </div>
-            
-        </div>
+      </div>
         {%endfor%}
-
-
     <div>
-                            <h2 class = "text-primary">Select a file to upload</h2>
-                            <p>
-                            {% with messages = get_flashed_messages() %}
-                            {% if messages %}
-                            <ul> 
-                            {% for message in messages %} 
-                                <li>{{ message }}</li>
-                            {% endfor %} 
-                            </ul>
-                            {% endif %}
-                            {% endwith %}
-                            </p>
-                            {% if filename %}
-                            <div> 
-                                <img src="{{ url_for('display_image', filename=filename) }}">
-                            </div>
-                            {% endif %} 
-                            {% for x in all_category %}
-                            <form method="post" action="/new_clothing/{{x.id}}/{{current_user.id}}" enctype="multipart/form-data" style="display: flex; margin: 20px;">
-                            {%endfor%}
-                            <dl style="display: flex; width: 100%; border-style: solid; border-radius: 5px;">
-                            <p> 
-                              <input type="hidden" name="user_id" value="{{current_user.id}}">
-                              <input type="hidden" name="clothing_catagory_id" value="{{clothingcatergoryid.id}}">
-                              <p>{{clothingcatergoryid.id}}</p>
-                                <div class="mb-3" style="margin:10px;">
-                                    <label for="name" class="form-label">clothing name</label>
-                                    <input type="text" class="form-control" name="name">
-                                  </div>
-                                  <div class="mb-3" style="margin:10px;">
-                                      <label for="material" class="form-label">material</label>
-                                      <input type="text" class="form-control" name="material" >
-                                    </div>
-                                    <div class="mb-3" style="margin:10px;">
-                                      <label for="style" class="form-label">style</label>
-                                      <input type="text" class="form-control" name="style" >
-                                    </div>
-                                    <div class="mb-3" style="margin:10px;">
-                                      <label for="cost" class="form-label">Cost</label>
-                                      <input type="text" class="form-control" name="cost" >
-                                    </div>
-                                  <div class="mb-3" style="margin:10px;">
-                                    <label for="primary_color" class="form-label">Primary Color</label>
-                                    <input type="text" class="form-control" name="primary_color">
-                                  </div>
-                                  <div class="mb-3 " style="margin:10px;">
-                                      <label class="form-label" for="secondary_color">Secondary-color</label>
-                                    <input type="text" class="form-control" name="secondary_color">
-                                    
-                                  </div>
-                                  <div class="mb-3 " style="margin:10px;">
-                                      <label class="form-label" for="location_aquired">location Aquired</label>
-                                    <input type="text" class="form-control" name="location_aquired">
-                                  </div>
-                                  <div class="mb-3" style="margin:10px; display: flex; align-items: center;">
-                                  <input type="file" name="file" autocomplete="off" required>
-                                </div>
-                            </p>
-                            </dl>
-                            <p>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </p>
-    </form>
-                        
+
+        <h2 class = "text-primary">Select a file to upload</h2>
+        <p>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %} 
+        </ul>
+        {% endif %}
+        {% endwith %}
+        </p>
+        {% if filename %}
+        <div> 
+            <img src="{{ url_for('display_image', filename=filename) }}">
+        </div>
+        {% endif %} 
+        <div class = "form_box">
+          <form method="post" action="/new_clothing" enctype="multipart/form-data" >
+            <input type="hidden" name="user_id" value="{{current_user.id}}">
+            <input type="hidden" name="clothing_catagory_id" value="{{clothingcatergoryid[0].id}}">
+          <div class="mb-3">
+              <label for="name" class="form-label">clothing name</label>
+              <input type="text" class="form-control" name="name">
+          </div>
+            <div class="mb-3">
+                  <label for="material" class="form-label">material</label>
+                  <input type="text" class="form-control" name="material" >
+            </div>
+                <div class="mb-3">
+                  <label for="style" class="form-label">style</label>
+                  <input type="text" class="form-control" name="style" >
+                </div>
+                <div class="mb-3">
+                  <label for="cost" class="form-label">Cost</label>
+                  <input type="text" class="form-control" name="cost" >
+                </div>
+              <div class="mb-3">
+                <label for="primary_color" class="form-label">Primary Color</label>
+                <input type="text" class="form-control" name="primary_color">
+              </div>
+              <div class="mb-3 ">
+                  <label class="form-label" for="secondary_color">Secondary-color</label>
+                <input type="text" class="form-control" name="secondary_color">
+              </div>
+              <div class="mb-3">
+                  <label class="form-label" for="location_aquired">location Aquired</label>
+                <input type="text" class="form-control" name="location_aquired">
+              </div>
+              <div class="mb-3" >
+              <input type="file" name="file" autocomplete="off" required>
+            </div>
+            <button type="submit" class="btn-primary btn">Submit</button>
+      </form>                  
     </div>
-
-
+  </div>
 </body>
 </html>
