@@ -1,0 +1,131 @@
+* {
+    padding:0;
+    margin:0 
+
+}
+
+
+@font-face {
+    font-family: "pacifico";
+    src: url("Pacifico-Regular.ttf");
+}
+@font-face {
+    font-family: "smooth";
+    src:url("typefaces/EBGaramond-Bold.ttf")
+}
+
+@font-face {
+    font-family: "legible";
+    src: url("Satisfy-Regular.ttf");
+}
+body {
+    background-image: linear-gradient(rgba(255, 0 , 110, .9),rgba(255,0,110,.9)),url("tile.png");
+    /* background-color: rgb(255, 0, 110); */
+}
+.clothes {
+    background-image: url("tile.png");
+    background-size:auto;
+
+
+}
+.container{
+    display: flex;
+    justify-content: center;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    box-shadow: 5px 5px 3px rgb(70, 8, 156, .5);
+    margin: auto;
+    padding: 60px;
+    background-color: rgba(250, 188, 215, 0.945);
+    width: 50%;
+} 
+
+.form-label {
+    font-family: "pacifico";
+    color: rgb(70, 8, 156);
+    font-size: large;
+}
+.container{
+    margin-top: 50px;
+}
+.text-primary{
+    font-family: "pacifico";
+    color: rgb(131, 56, 236);
+    
+}
+
+.bottom h1.text-primary {
+    margin-bottom: 25px;
+    text-shadow: 1px 1px rgb(70, 8, 156);
+}
+
+.top{
+    font-family: "pacifico";
+    display:flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+
+}
+form{
+    color: grey;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.btn-primary{
+    font-family: "pacifico";
+    font-size:25px;
+    background-color: rgb(131, 56, 236);
+}
+
+.bottom{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar {
+    background: linear-gradient(90deg,rgba(70,8,156,1),rgba(255,255,255,.9));
+    align-items: center;
+    box-shadow:4px 0px 10px 10px rgba(10,8,156,.5)
+}
+
+.nav-link{
+    padding:10px;
+    font-family: "pacifico";
+    font-size:25px;
+    margin-right:25px;
+    color: white;
+    /* border:2px solid white; */
+    border-radius: 4px;
+    background:linear-gradient(rgba(70,8,156,1),rgba(70,8,145,1));
+}
+
+.navbar-brand{
+    font-family: "pacifico";
+    font-size: 40px;
+    margin-right:100px;
+    margin-left:50px;
+    text-shadow: 1px 1px rgb(70, 8, 156);
+
+}
+
+.title {
+    font-size:100px;
+    text-shadow: 1px 1px rgb(70, 8, 156);
+
+}
+
+.box2 {
+    /* style="border-radius: 5%; width: 350px; border-style: solid; padding: 10px; margin: 10px; height: 300px;" */
+    border-radius: 5px;
+    width:fit-content;
+    border-style:solid;
+    padding: 5px;
+    margin-left:30px;
+    height:fit-content;
+
+}
+.clothing-image {
+    height:300px;
+}
