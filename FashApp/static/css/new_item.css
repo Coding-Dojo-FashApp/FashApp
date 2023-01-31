@@ -1,0 +1,12 @@
+.box1 {
+    display: inline-block;
+}
+
+.box2{
+    border-radius: 5%;
+    width: 350px;
+    border-style: solid;
+    padding: 10px;
+    margin: 10px;
+    height: 400px; 
+}
