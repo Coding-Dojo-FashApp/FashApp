@@ -34,7 +34,52 @@ def getintocategory(id,user_id):
         "user_id" : user_id
     }
     print(data)
-    return render_template('new_item.html',current_user = user.User.get_one({'id': session["users_id"]}), all_category = clothing_category.Clothing_catagories.get_all(), clothingcatergoryid=clothing_category.Clothing_catagories.get_category_by_id(id), all_clothing = clothing_item.Clothing_items.show_clothing_by_user(data))
+    return render_template('new_item_copy.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all(), clothingcatergoryid=clothing_category.Clothing_catagories.get_category_by_id(id), all_clothing = clothing_item.Clothing_items.show_clothing_by_user(data))
+
+@app.route('/new_clothing', methods=['get'])
+def new_clothing():
+    
+    return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
+
+@app.route('/create_clothing', methods=['POST'])
+def create_clothing():
+    
+	if 'file' not in request.files: 
+		flash('No file part')
+	if not clothing_item.Clothing_items.validate_post(request.form):
+		
+		return redirect('/new_clothing')
+	file = request.files['file']
+	if file.filename == '': 
+		flash('No image selected for uploading')
+		return redirect(request.url) 
+	if file and allowed_file(file.filename):
+		filename = secure_filename(file.filename) 
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		print(file.filename)
+		print('upload_image filename: ' + filename)
+		flash('Image successfully uploaded and displayed below')
+		data = {
+			"name": request.form['name'],
+			"material": request.form['material'],
+			"cost": request.form['cost'],
+			"style": request.form['style'],
+			"primary_color": request.form['primary_color'],
+			"secondary_color": request.form['secondary_color'], 
+			"location_aquired": request.form['location_aquired'],
+			"img_path": filename,
+			"user_id": request.form['user_id'],
+			"clothing_catagory_id": request.form['category_id']
+		}
+    
+		clothing_item.Clothing_items.insert_clothing_items(data)
+		print(file.filename, "this is the file name")
+	
+		return redirect('/home') 
+	else:
+		flash('Allowed image types are -> png, jpg, jpeg, gif') 
+		return redirect(request.url)
+
 
 @app.route('/new_clothing/<int:id>/<int:user_id>/', methods = ['post'])
 def create_item(id,user_id):
@@ -58,17 +103,17 @@ def create_item(id,user_id):
 		print('upload_image filename: ' + filename)
 		flash('Image successfully uploaded and displayed below')
 		data = {
-		"name": request.form['name'],
-		"material": request.form['material'],
-		"cost": request.form['cost'],
-        "style": request.form['style'],
-		"primary_color": request.form['primary_color'],
-		"secondary_color": request.form['secondary_color'], 
-		"location_aquired": request.form['location_aquired'],
-        "img_path": filename,
-		"user_id": request.form['user_id'],
-        "clothing_catagory_id": request.form['clothing_catagory_id']
-    }
+			"name": request.form['name'],
+			"material": request.form['material'],
+			"cost": request.form['cost'],
+			"style": request.form['style'],
+			"primary_color": request.form['primary_color'],
+			"secondary_color": request.form['secondary_color'], 
+			"location_aquired": request.form['location_aquired'],
+			"img_path": filename,
+			"user_id": request.form['user_id'],
+			"clothing_catagory_id": request.form['clothing_catagory_id']
+		}
     
 		clothing_item.Clothing_items.insert_clothing_items(data)
 		print(file.filename, "this is the file name")

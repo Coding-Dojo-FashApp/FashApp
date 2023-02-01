@@ -1,6 +1,6 @@
 from FashApp.config.mysqlconnection import connectToMySQL
 from FashApp.models import user
-import json
+
 
 
 class Clothing_catagories:
@@ -11,7 +11,7 @@ class Clothing_catagories:
         self.name = data['name']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        self.user_id = None
+        self.user_id = data['user_id']
         self.user = []
 
 
