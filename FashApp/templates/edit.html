@@ -49,26 +49,7 @@
         </div> 
     </div>
     </nav>
-    <div>
-        <input type="hidden" name="user_id" value="{{current_user.id}}">
-        <!-- <h1>All Post</h1> -->
-        <div class="box1 d-flex flex-wrap mt-3">
-            {%for clothing in all_clothing%}
-            <div class="box2" style="background-color:deeppink; color: white;">
-                <a href="/view_clothing/{{clothing.id}}">
-                    <img class = "clothing-image" src="/static/uploads/{{clothing.img_path}}/" alt="{{clothing.img_path}}" >
-                </a>
-                
-                <p>Name: {{clothing.name}}</p>
-                <p>Style: {{clothing.style}}</p>
-                <p>Location: {{clothing.location_aquired}}</p>
-                
-            </div>
-            
-            {%endfor%}
-        </div>
         <div class="container d-flex flex-column">
-            <!-- <h2 class = "text-primary text-center">Select a file to upload</h2> -->
             <p>
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -80,69 +61,76 @@
                 {% endif %}
                 {% endwith %}
             </p>
-              {% if filename %}
-              <div> 
-                  <img src="{{ url_for('display_image', filename=filename) }}">
-              </div>
-              {% endif %} 
-            <form method="post" action="/create_clothing" enctype="multipart/form-data" style="display: flex; margin: 20px;">
-                <dl style="display: flex; width: 100%; border-style: solid; border-radius: 5px;">
-                  <div>
-                    <div class="d-flex flex-wrap"> 
-                      <input type="hidden" name="user_id" value="{{current_user.id}}">
-                        <div class="mb-3" style="margin:10px;">
-                            <label for="name" class="form-label">clothing name</label>
-                            <input type="text" class="form-control" name="name">
-                        </div>
+                {% if filename %}
+                <div> 
+                    <img src="{{ url_for('display_image', filename=filename) }}">
+                </div>
+                {% endif %}
+                <div class="d-">
+                    <p class="fs-3" style="color: white;">Edit Clothing Item</p><br>
+                </div>
+                <form method="post" action="/create_clothing" enctype="multipart/form-data" style="display: flex; margin: 20px;">
+                    <dl style="display: flex; width: 100%; border-style: solid; border-radius: 5px;">
+                        <div>
+                            <div class="d-flex flex-wrap"> 
+                                <input type="hidden" name="user_id" value="{{current_user.id}}">
+                                <div class="mb-3" style="margin:10px;">
+                                    <label for="name" class="form-label">clothing name</label>
+                                    <input type="text" class="form-control" name="name" value="{{clothing.name}}">
+                                </div>
 
-                        <div class="mb-3" style="margin:10px;">
-                            <label for="material" class="form-label">material</label>
-                            <input type="text" class="form-control" name="material" >
-                        </div>
+                                <div class="mb-3" style="margin:10px;">
+                                    <label for="material" class="form-label">material</label>
+                                    <input type="text" class="form-control" name="material" value="{{clothing.material}}">
+                                </div>
 
-                        <div class="mb-3" style="margin:10px;">
-                          <label for="style" class="form-label">style</label>
-                          <input type="text" class="form-control" name="style" >
-                        </div>
+                                <div class="mb-3" style="margin:10px;">
+                                    <label for="style" class="form-label">style</label>
+                                    <input type="text" class="form-control" name="style" value="{{clothing.style}}">
+                                </div>
 
-                        <div class="mb-3" style="margin:10px;">
-                          <label for="cost" class="form-label">Cost</label>
-                          <input type="text" class="form-control" name="cost" >
-                        </div>
+                                <div class="mb-3" style="margin:10px;">
+                                    <label for="cost" class="form-label">Cost</label>
+                                    <input type="text" class="form-control" name="cost" value="{{clothing.cost}}">
+                                </div>
 
-                        <div class="mb-3" style="margin:10px;">
-                          <label for="category_id" class="form-label">Clothing Category</label><br>
-                          <select name="category_id" id="" style="height: 40px; width: 90px;background-color:deeppink; font-size: larger;padding: 5px;">
-                            {% for category in all_category %}
-                            <option value="{{category.id}}"><strong>{{category.name}}</strong></option>
-                            {% endfor %}
-                          </select>
-                        </div>
+                                <div class="mb-3" style="margin:10px;">
+                                    <label for="category_id" class="form-label">Clothing Category</label><br>
+                                    <select name="category_id" id="" style="height: 40px; width: 90px;background-color:deeppink; font-size: larger;padding: 5px;">
+                                        {% for category in all_category %}
+                                        {% if clothing.category.id  == category.id %}
+                                        <option value="{{category.id}}" selected><strong>{{category.name}}</strong></option>
+                                        {% else %}
+                                        <option value="{{category.id}}"><strong>{{category.name}}</strong></option>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
 
-                        <div class="mb-3" style="margin:10px;">
-                          <label for="primary_color" class="form-label">Primary Color</label>
-                          <input type="text" class="form-control" name="primary_color">
-                        </div>
+                                <div class="mb-3" style="margin:10px;">
+                                    <label for="primary_color" class="form-label">Primary Color</label>
+                                    <input type="text" class="form-control" name="primary_color" value="{{clothing.primary_color}}">
+                                </div>
 
-                        <div class="mb-3 " style="margin:10px;">
-                          <label class="form-label" for="secondary_color">Secondary-color</label>
-                          <input type="text" class="form-control" name="secondary_color">
-                        </div>
+                                <div class="mb-3 " style="margin:10px;">
+                                    <label class="form-label" for="secondary_color">Secondary-color</label>
+                                    <input type="text" class="form-control" name="secondary_color" value="{{clothing.secondary_color}}">
+                                </div>
 
-                        <div class="mb-3 " style="margin:10px;">
-                          <label class="form-label" for="location_aquired">location Aquired</label>
-                          <input type="text" class="form-control" name="location_aquired">
-                        </div>
+                                <div class="mb-3 " style="margin:10px;">
+                                    <label class="form-label" for="location_aquired">location Aquired</label>
+                                    <input type="text" class="form-control" name="location_aquired" value="{{clothing.location_aquired}}">
+                                </div>
 
-                        <div class="mb-3" style="margin:10px; display: flex; align-items: center;flex-direction: column;">
-                          <p class = "text-primary text-center fs-4">Select a file to upload</p>
-                          <input type="file" name="file" autocomplete="off" required>
+                                <div class="mb-3" style="margin:10px; display: flex; align-items: center;flex-direction: column;">
+                                    <p class = "text-primary text-center fs-4">Select a file to upload</p>
+                                    <input type="file" name="file" autocomplete="off" required>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary m-3">Submit</button>
+                            </div>
                         </div>
-                      </div>
-                      <div class="d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary m-3">Submit</button>
-                      </div>
-                  </div>
                     </dl>
             </form>
     </div>

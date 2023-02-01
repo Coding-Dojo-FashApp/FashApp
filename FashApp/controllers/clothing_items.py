@@ -80,14 +80,15 @@ def create_clothing():
 		flash('Allowed image types are -> png, jpg, jpeg, gif') 
 		return redirect(request.url)
 
-@app.route('/edit_clothing/<int:id>', methods=['get'])
+@app.route('/edit_clothing/<int:id>')
 def edit_clothing(id):
     clothing = clothing_item.Clothing_items.get_clothing_by_id(id)
     
     
-    return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), 
+    return render_template('edit.html',current_user = user.User.get_one(session["users_id"]), 
         all_category = clothing_category.Clothing_catagories.get_all(),  
-        all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
+        all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']),
+        clothing = clothing)
 
 
 
