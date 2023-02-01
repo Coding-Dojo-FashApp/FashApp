@@ -52,14 +52,14 @@ def create_item(id,user_id):
 		flash('No image selected for uploading')
 		return redirect(request.url) 
 	if file and allowed_file(file.filename):
-		filename = secure_filename(file.filename)  
+		filename = secure_filename(file.filename) 
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 		print(file.filename)
 		print('upload_image filename: ' + filename)
 		flash('Image successfully uploaded and displayed below')
 		data = {
 		"name": request.form['name'],
-		"material": request.form['material'], 
+		"material": request.form['material'],
 		"cost": request.form['cost'],
         "style": request.form['style'],
 		"primary_color": request.form['primary_color'],
@@ -70,7 +70,7 @@ def create_item(id,user_id):
         "clothing_catagory_id": request.form['clothing_catagory_id']
     }
     
-		clothing_item.Clothing_items.insert_clothing_items(data) 
+		clothing_item.Clothing_items.insert_clothing_items(data)
 		print(file.filename, "this is the file name")
 	
 		return redirect('/home') 
@@ -81,5 +81,3 @@ def create_item(id,user_id):
 @app.route('/display/<filename>')
 def display_image(filename):
 	return redirect(url_for('static', filename='uploads/' + filename), code=301)
-
-
