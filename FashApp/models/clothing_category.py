@@ -3,7 +3,7 @@ from FashApp.models import user
 import json
 
 
-class Clothing_catagories:
+class Clothing_catagories: 
     DB = "fashion_inventory"
     
     def __init__(self, data):

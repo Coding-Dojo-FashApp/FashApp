@@ -9,7 +9,7 @@ mydb = 'fashion_inventory'
 class Clothing_items:
     def __init__( self , data ):
         self.id = data['id'] 
-        self.name = data['name']
+        self.name = data['name'] 
         self.cost = data['cost']
         self.material = data['material']
         self.style = data['style']
