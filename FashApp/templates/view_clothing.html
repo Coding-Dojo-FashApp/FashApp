@@ -28,7 +28,7 @@
                         </a>
                         <ul class="dropdown-menu" >
                             <form action="/create_category" method="post">
-                                <input type="hidden" name="user_id" value="{{current_user.id}}">
+                                <input type="hidden" name="user_id" value="{{session[users_id]}}">
                                 <ul class="list-unstyled">
                                     {% for x in all_category %}
                                     <li><a href="/category_clothing_list/{{x.id}}">{{x.name}}</a> ({{x.num_of}})</li>
@@ -52,6 +52,7 @@
             </div>
         </div> 
     </nav>
+    <!-- start a display for a_clothing. route in controller is done -->
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/index.js') }}"></script>
 </body>
 </html>
