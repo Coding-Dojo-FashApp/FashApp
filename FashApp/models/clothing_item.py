@@ -179,7 +179,7 @@ class Clothing_items:
     @classmethod
     def get_clothing_by_id(cls,id):
         data = {"id" : id}
-        query = "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_catagory_id = clothing_catagory.id LEFT JOIN users on clothing_items.user_id = user.id ORDER BY clothing_items.name WHERE clothing_items.id = %(id)s;"
+        query = "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_catagory_id = clothing_catagories.id LEFT JOIN users on clothing_items.user_id = users.id  ORDER BY clothing_items.name;"
         result = connectToMySQL(mydb).query_db(query, data)
 
         row = result[0]
