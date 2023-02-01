@@ -14,7 +14,7 @@ def new_outfit():
     categories = clothing_category.Clothing_catagories.get_all()
     for category in categories:
         clothing_by_category[category.name] = clothing_item.Clothing_items.get_clothing_by_category(category.id)
-    print("\n__clothing by category", clothing_by_category)
+    print(category)
     for clothing in clothing_by_category:
         print("Clothing in category", clothing_by_category[clothing])
     return render_template("create_outfit.html", current_user = current_user, clothing_by_category = clothing_by_category)
