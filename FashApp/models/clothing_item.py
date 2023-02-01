@@ -1,9 +1,9 @@
 from FashApp.config.mysqlconnection import connectToMySQL
-from FashApp.models import clothing_items, outfits, users
+from FashApp.models import clothing_item, outfit, user
 from flask import flash
 
 mydb = 'fashion_inventory'
- 
+
 class Clothing_items:
     def __init__( self , data ):
         self.id = data['id'] 
@@ -17,7 +17,6 @@ class Clothing_items:
         self.img_path = data['img_path']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at'] 
- 
 
     @classmethod  
     def insert_clothing_items(cls,data):
@@ -25,15 +24,13 @@ class Clothing_items:
         results = connectToMySQL(mydb).query_db(query,data)
         # print(results)
         return results
-    
+
     @classmethod
     def show_clothing_by_user(cls,data):
         query =  "select * from clothing_items left join users on clothing_items.user_id where clothing_catagory_id = %(id)s" 
         results = connectToMySQL(mydb).query_db(query,data)
         print (results)
         return results
-
-
 
     @staticmethod
     def validate_clothingitems(clothingitem):
@@ -66,12 +63,12 @@ class Clothing_items:
         return is_valid
 
     @classmethod
-    def save(cls,data):
+    def save_clothingitems(cls,data):
         query = '''
         INSERT INTO clothing_items 
         (name,cost,material,style,primary_color,secondary_color,location_aquired,img_path,created_at,updated_at) 
         VALUES(%(name)s,%(cost)s,%(material)s,%(style)s,%(primary_color)s,%(secondary_color)s,%(location_aquired)s,%(img_path)s,%(created_at)s,%(updated_at)s);'''
-        results = connect(mydb).query_db(query, data)
+        results = connectToMySQL(mydb).query_db(query, data)
         print(f"results: {results}")
         return results
     
@@ -82,7 +79,7 @@ class Clothing_items:
         SELECT * 
         FROM clothing_items 
         WHERE id = %(id)s;'''
-        results = connect(mydb).query_db(query, data)
+        results = connectToMySQL(mydb).query_db(query, data)
         print(f"results: {results}")
         return cls(results[0])
 
@@ -93,7 +90,7 @@ class Clothing_items:
         FROM clothing_items 
         LEFT JOIN users
         ON users.id = clothing_items.users_id;'''
-        results = connect(mydb).query_db(query)
+        results = connectToMySQL(mydb).query_db(query)
         clothingitems = []
         for row in results:
             for key, value in row.items():
@@ -113,12 +110,12 @@ class Clothing_items:
         return clothingitems
 
     @classmethod
-    def get_one(cls,data):
+    def get_one_clothingitem(cls,data):
         query  = '''
         SELECT * 
         FROM clothing_items 
         WHERE id = %(id)s'''
-        result = connect(mydb).query_db(query, data)
+        result = connectToMySQL(mydb).query_db(query, data)
         return cls(result[0])
 
     @classmethod
@@ -127,7 +124,7 @@ class Clothing_items:
         DELETE 
         FROM clothing_items 
         WHERE id = %(id)s;'''
-        return connect(mydb).query_db(query, data)
+        return connectToMySQL(mydb).query_db(query, data)
 
     @classmethod
     def update(cls,data):
@@ -136,7 +133,7 @@ class Clothing_items:
         SET activity = %(activity)s, duration = %(duration)s ,
         positives = %(positives)s, negatives = %(negatives)s, date= %(date)s,users_id = %(user_id)s 
         WHERE clothing_items.id = %(id)s;'''
-        return connect(mydb).query_db(query, data)
+        return connectToMySQL(mydb).query_db(query, data)
 
     @classmethod
     def joinId(cls, data):
@@ -145,7 +142,7 @@ class Clothing_items:
             FROM users
             JOIN fashion_inventory.clothing_items ON users.id = users_id;
         '''
-        results = connect(mydb).query_db(query, data)
+        results = connectToMySQL(mydb).query_db(query, data)
         print(f"results: {results}")
         output = cls(results[0])
         for row in results:

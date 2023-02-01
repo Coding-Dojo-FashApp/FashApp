@@ -1,12 +1,17 @@
 from FashApp import app
-from FashApp import render_template, redirect, session, request, flash
+from flask import render_template,request, redirect,session
 from FashApp.models import user, outfit, clothing_item, clothing_category
+from datetime import datetime
+from flask_bcrypt import Bcrypt
+from flask import flash
+bcrypt = Bcrypt(app)
+dateFormat = "%m/%d/%Y %I:%M %p"
 mydb = 'fashion_inventory'
 
 
 @app.route('/post/create',methods=['POST'])
 def clothingitems_display_page():
-    if not clothing_item.fashion_inventory.validate_clothingitem(request.form):
+    if not clothing_item.mydb.validate_clothingitem(request.form):
         return redirect('/clothingitems/create')
     data = {
     "name" : request.form['name'],
@@ -21,12 +26,12 @@ def clothingitems_display_page():
     "updated_at" : request.form['updated_at'],
     "id" : id
     }
-    result = clothing_item.fashion_inventory.save(data)
+    result = clothing_item.mydb.save(data)
     return redirect('/clothingitems')
 
 
 @app.route('/clothingitems')
-def dashboard():
+def clothing_index():
     if 'user_id' in session:
         return render_template('index.html', 
         current_user = user.User.getById({'id': session['user_id']}),
@@ -47,11 +52,11 @@ def edit(id):
     data ={ 
     "id":id
     }
-    return render_template("edit.html",clothing_item=mydb.clothing_items.get_one(data),current_user = users.User.getById({'id': session['user_id']}))
+    return render_template("edit.html",clothing_item=mydb.clothing_items.get_one(data),current_user = user.User.getById({'id': session['user_id']}))
 
 @app.route('/clothingitems/edit/<int:id>',methods=['POST'])
 def update(id):
-    if not fashion_inventory.clothing_items.validate_clothingitems(request.form):
+    if not mydb.clothing_items.validate_clothingitems(request.form):
         return redirect(f'/clothingitems/edit/{id}')
     data ={
     "name" : request.form['name'],
@@ -74,7 +79,7 @@ def show(id):
     data ={ 
         "id":id
     }
-    return render_template("view_outfit_items.html",clothing_item=mydb.clothing_items.get_one(data),current_user = users.User.getById({'id': session['user_id']}))
+    return render_template("view_outfit_items.html",clothing_item=mydb.clothing_items.get_one(data),current_user = user.User.getById({'id': session['user_id']}))
 
 @app.route("/clothingitems/create")
 def clothingitems_create_page():
