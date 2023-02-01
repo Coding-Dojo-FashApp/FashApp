@@ -109,6 +109,8 @@ class Clothing_items:
 
         return catagories
     
+    
+    
     @classmethod
     def get_clothing_by_category(cls,id):
         data={"id" : id}

@@ -31,7 +31,7 @@
                         <input type="hidden" name="user_id" value="{{current_user.id}}">
                         <ul class="list-unstyled">
                             {% for x in all_category %}
-                            <li>{{x.name}}</li>
+                            <li><a href="/category_clothing_list/{{x.id}}">{{x.name}}</a> ({{x.num_of}})</li>
                             {%endfor%}
                         </ul>
                         <!-- <p>all_category[0].user.last_name</p> -->
@@ -53,10 +53,17 @@
         <input type="hidden" name="user_id" value="{{current_user.id}}">
         <!-- <h1>All Post</h1> -->
         <div class="box1 d-flex flex-wrap mt-3">
-            {%for z in all_clothing%}
+            {%for clothing in all_clothing%}
           
-            <div class="box2">
-                <img class = "clothing-image" src="/static/uploads/{{z.img_path}}/" alt="{{z.img_path}}" >
+            <div class="box2" style="background-color:deeppink; color: white;">
+                <a href="/view_clothing/{{clothing.id}}">
+                  <img class = "clothing-image" src="/static/uploads/{{clothing.img_path}}/" alt="{{clothing.img_path}}" >
+                </a>
+                
+                <p>Name: {{clothing.name}}</p>
+                <p>Style: {{clothing.style}}</p>
+                <p>Location: {{clothing.location_aquired}}</p>
+                
             </div>
             
             {%endfor%}

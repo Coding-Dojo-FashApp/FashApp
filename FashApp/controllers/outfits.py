@@ -11,10 +11,10 @@ from datetime import datetime
 def new_outfit():
     current_user = user.User.get_one(session['users_id'])
     clothing_by_category = {}
-    categories = clothing_category.Clothing_catagories.get_all()
-    for category in categories:
+    all_category = clothing_category.Clothing_catagories.get_all()
+    for category in all_category:
         clothing_by_category[category.name] = clothing_item.Clothing_items.get_clothing_by_category(category.id)
     print("\n__clothing by category", clothing_by_category)
     for clothing in clothing_by_category:
         print("Clothing in category", clothing_by_category[clothing])
-    return render_template("create_outfit.html", current_user = current_user, clothing_by_category = clothing_by_category)
+    return render_template("create_outfit.html", current_user = current_user, clothing_by_category = clothing_by_category, all_category = all_category)
