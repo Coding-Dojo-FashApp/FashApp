@@ -1,6 +1,12 @@
 from FashApp.config.mysqlconnection import connectToMySQL
+<<<<<<< HEAD
 from FashApp.models import clothing_item, outfit, user
+=======
+from FashApp.models import user
+from FashApp.models import clothing_category
+>>>>>>> f34ddf534d6f324e3423c869f0a6ea4c157a3ea1
 from flask import flash
+from pprint import pprint
 
 mydb = 'fashion_inventory'
 
@@ -17,6 +23,7 @@ class Clothing_items:
         self.img_path = data['img_path']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at'] 
+<<<<<<< HEAD
 
     @classmethod  
     def insert_clothing_items(cls,data):
@@ -31,37 +38,63 @@ class Clothing_items:
         results = connectToMySQL(mydb).query_db(query,data)
         print (results)
         return results
+=======
+        self.category = None
+        self.user = None
+
+>>>>>>> f34ddf534d6f324e3423c869f0a6ea4c157a3ea1
 
     @staticmethod
-    def validate_clothingitems(clothingitem):
+    def validate_post(res):
         is_valid = True
-        if len(clothingitem['name']) <1:
-            flash('Must provide name.')
+        if len(res['name']) < 0:
+            flash("clothing name is Required")
             is_valid = False
-        if len(clothingitem['cost']) <1:
-            flash('Must provide cost.')
+        elif len(res['name']) < 3:
+            flash("clothing name must be at least 3 characters.")
             is_valid = False
-        if len(clothingitem['material']) <1:
-            flash('Must provide material.')
+        if len(res['material']) < 0:
             is_valid = False
-        if len(clothingitem['style']) <1:
-            flash('Must provide style.')
+            flash(" material is Required")
+        elif len(res['material']) < 3:
             is_valid = False
-        if len(clothingitem['primary_color']) <1:
-            flash('Must provide primary color.')
+            flash("material must be at least 3 characters.")
             is_valid = False
-        if len(clothingitem['secondary_color']) <1:
-            flash('Must provide secondary color.')
+        if int(res['cost']) <= 0:
+            flash("price is Required")
             is_valid = False
-        if len(clothingitem['location_aquired']) <1:
-            flash('Must provide location.')
+        elif int(res['cost']) <= 3:
+            flash("price must must be at least 3 characters.")
             is_valid = False
-        if len(clothingitem['img_path']) <1:
-            flash('Must provide image.')
+        if len(res['style']) < 0:
+            flash(" style is Required")
+            is_valid = False 
+        elif len(res['style']) < 3:
+            flash("style must be at least 3 characters.")
             is_valid = False
-        print(f"is_valid: {is_valid}")
+        if len(res['primary_color']) < 0:
+            flash("primary_color  is Required")
+            is_valid = False
+        elif len(res['primary_color']) < 3:
+            flash("primary_color must be at least 3 characters.")
+            is_valid = False
+        if len(res['secondary_color']) < 0:
+            is_valid = False
+            flash(" secondary_color is Required")
+        elif len(res['secondary_color']) < 3:
+            is_valid = False
+            flash("secondary_color must be at least 3 characters.")
+            is_valid = False
+        if len(res['location_aquired']) < 0:
+            is_valid = False
+            flash(" location_aquired is Required")
+        elif len(res['location_aquired']) < 3:
+            is_valid = False
+            flash("location_aquired must be at least 3 characters.")
+            is_valid = False
         return is_valid
 
+<<<<<<< HEAD
     @classmethod
     def save_clothingitems(cls,data):
         query = '''
@@ -103,13 +136,48 @@ class Clothing_items:
                 'password': row['password'],
                 'updated_at': row['updated_at'],
                 'created_at' : row['created_at']
-            }
-            this_user = users.User(user_data)
-            this_clothingitem.creator = this_user
-            clothingitems.append(this_clothingitem)
-        return clothingitems
+=======
 
+    @classmethod  
+    def insert_clothing_items(cls,data):
+        query = "INSERT INTO clothing_items(name,cost,material,style,primary_color,secondary_color,location_aquired,img_path,created_at,updated_at,clothing_catagory_id,user_id) VALUES (%(name)s,%(cost)s,%(material)s,%(style)s,%(primary_color)s,%(secondary_color)s,%(location_aquired)s,%(img_path)s, NOW(), NOW(), %(clothing_catagory_id)s,%(user_id)s);"
+        results = connectToMySQL(mydb).query_db(query,data)
+        # print(results)
+        return results
+    
     @classmethod
+    def show_clothing_by_user(cls,id):
+        data = {
+            "id" : id
+        }
+        query =  "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_catagory_id= clothing_catagories.id left join users on clothing_items.user_id = users.id WHERE users.id = %(id)s" 
+        results = connectToMySQL(mydb).query_db(query,data)
+        catagories = []
+        
+        for row in results: 
+            category = cls(row)
+            # print(category) 
+            user_data = {
+                "id" : row["users.id"],
+                "first_name" : row["first_name"],
+                "last_name" : row["last_name"],
+                "email" : row["email"],
+                "password" : row["password"],
+                "created_at" : row["users.created_at"],
+                "updated_at" : row["users.updated_at"]
+
+>>>>>>> f34ddf534d6f324e3423c869f0a6ea4c157a3ea1
+            }
+            
+            category.user = user.User(user_data)
+            catagories.append(category)
+
+        return catagories
+    
+    
+    
+    @classmethod
+<<<<<<< HEAD
     def get_one_clothingitem(cls,data):
         query  = '''
         SELECT * 
@@ -134,8 +202,41 @@ class Clothing_items:
         positives = %(positives)s, negatives = %(negatives)s, date= %(date)s,users_id = %(user_id)s 
         WHERE clothing_items.id = %(id)s;'''
         return connectToMySQL(mydb).query_db(query, data)
+=======
+    def get_clothing_by_category(cls,id):
+        data={"id" : id}
+        query =  """SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON 
+        clothing_items.clothing_catagory_id= clothing_catagories.id left join users on 
+        clothing_items.user_id = users.id WHERE clothing_catagories.id = %(id)s ORDER BY 
+        clothing_items.name ASC ;
+        """ 
+        results = connectToMySQL(mydb).query_db(query,data)
+        catagories = []
 
+        if results:
+            for row in results: 
+                category = cls(row)
+                # print(category) 
+                user_data = {
+                    "id" : row["users.id"],
+                    "first_name" : row["first_name"],
+                    "last_name" : row["last_name"],
+                    "email" : row["email"],
+                    "password" : row["password"],
+                    "created_at" : row["users.created_at"],
+                    "updated_at" : row["users.updated_at"]
+
+                }
+                
+                category.user = user.User(user_data)
+                catagories.append(category)
+>>>>>>> f34ddf534d6f324e3423c869f0a6ea4c157a3ea1
+
+        return catagories
+    
+    
     @classmethod
+<<<<<<< HEAD
     def joinId(cls, data):
         query = '''
             SELECT users.first_name, users.last_name, users.email
@@ -145,22 +246,69 @@ class Clothing_items:
         results = connectToMySQL(mydb).query_db(query, data)
         print(f"results: {results}")
         output = cls(results[0])
-        for row in results:
-            clothing_info = {
-                id : row['id'],
-                "name" : row['post.name'],
-                "cost" : row['post.cost'],
-                "material" : row['post.material'],
-                "style" : row['post.style'],
-                "primary_color" : row['post.primary_color'],
-                "secondary_color" : row['post.secondary_color'],
-                "location_aquired" : row['post.location_aquired'],
-                "img_path" : row['post.img_path'],
-                "created_at" : row['post.created_at'],
-                "updated_at" : row['post.updated_at'],
-                #"users_id" : row['users_id'],
-            }
-            output.clothing_items.append(clothing_info)
-        print(output)
-        return(output)
+=======
+    def get_all_clothing(cls):
+        query = "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_catagory_id = clothing_catagory.id LEFT JOIN users on clothing_items.user_id = user.id ORDER BY clothing_items.name;"
+        results = connectToMySQL(mydb).query_db(query)
 
+        all_clothing = []
+>>>>>>> f34ddf534d6f324e3423c869f0a6ea4c157a3ea1
+        for row in results:
+            user_data = {
+                "id" : row['users.id'],
+                "first_name" : row['first_name'],
+                "last_name" : row['last_name'],
+                "email" : None,
+                "password" : None,
+                "created_at" : row['users.created_at'],
+                "updated_at" : row['users.updated_at'],
+                "outfits" : None
+            }
+
+            category_data ={
+                "id" : row['clothing_catagories.id'],
+                "name" : row['clothing_catagories.name'],
+                "created_at" : row['clothing_catagories.created_at'],
+                "updated_at" : row['clothing_catagories.updated_at'],
+                "user_id" : row['clothing_catagories.user_id']
+            }
+            
+            clothing = cls(row)
+            clothing.category = clothing_category.Clothing_catagories(category_data)
+            clothing.user = user.User(user_data)
+            
+            all_clothing.append(clothing)
+        return all_clothing
+    
+    @classmethod
+    def get_clothing_by_id(cls,id):
+        data = {"id" : id}
+        query = "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_catagory_id = clothing_catagories.id LEFT JOIN users on clothing_items.user_id = users.id  ORDER BY clothing_items.name;"
+        result = connectToMySQL(mydb).query_db(query, data)
+
+        row = result[0]
+        
+        user_data = {
+            "id" : row['users.id'],
+            "first_name" : row['first_name'],
+            "last_name" : row['last_name'],
+            "email" : None,
+            "password" : None,
+            "created_at" : row['users.created_at'],
+            "updated_at" : row['users.updated_at'],
+            "outfits" : None
+        }
+
+        category_data ={
+            "id" : row['clothing_catagories.id'],
+            "name" : row['clothing_catagories.name'],
+            "created_at" : row['clothing_catagories.created_at'],
+            "updated_at" : row['clothing_catagories.updated_at'],
+            "user_id" : row['clothing_catagories.user_id']
+        }
+        
+        clothing = cls(row)
+        clothing.category = clothing_category.Clothing_catagories(category_data)
+        clothing.user = user.User(user_data)
+        
+        return clothing

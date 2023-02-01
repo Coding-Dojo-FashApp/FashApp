@@ -1,5 +1,6 @@
 from FashApp.config.mysqlconnection import connectToMySQL
 from flask import flash
+from FashApp.models import outfit
 import re
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 mydb = 'fashion_inventory'
@@ -13,7 +14,7 @@ class User:
         self.email = data['email']
         self.password = data['password']
         self.created_at = data['created_at']
-        self.updated_at = data['updated_at'] 
+        self.updated_at = data['updated_at']
 
     @staticmethod
     def validate_create(request):
@@ -69,8 +70,8 @@ class User:
         return connectToMySQL(mydb).query_db( query, data )
 
     @classmethod
-    def get_one(cls,data):
-        print(data)
+    def get_one(cls,id):
+        data = {"id" : id}
         query = "SELECT * FROM users WHERE users.id =%(id)s;"
         results = connectToMySQL(mydb).query_db(query, data)
         if len(results) < 1:
