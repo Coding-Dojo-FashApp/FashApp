@@ -1,50 +1,4 @@
 from FashApp import app
-<<<<<<< HEAD
-from flask import render_template,request, redirect,session
-from FashApp.models import user, outfit, clothing_item, clothing_category
-from datetime import datetime
-from flask_bcrypt import Bcrypt
-from flask import flash
-bcrypt = Bcrypt(app)
-dateFormat = "%m/%d/%Y %I:%M %p"
-mydb = 'fashion_inventory'
-
-
-@app.route('/post/create',methods=['POST'])
-def clothingitems_display_page():
-    if not clothing_item.mydb.validate_clothingitem(request.form):
-        return redirect('/clothingitems/create')
-    data = {
-    "name" : request.form['name'],
-    "cost" : request.form['cost'],
-    "material" : request.form['material'],
-    "style" : request.form['style'],
-    "primary_color" : request.form['primary_color'],
-    "secondary_color" : request.form['secondary_color'],
-    "location_aquired" : request.form['location_aquired'],
-    "img_path" : request.form['img_path'],
-    "created_at" : request.form['created_at'],
-    "updated_at" : request.form['updated_at'],
-    "id" : id
-    }
-    result = clothing_item.mydb.save(data)
-    return redirect('/clothingitems')
-
-
-@app.route('/clothingitems')
-def clothing_index():
-    if 'user_id' in session:
-        return render_template('index.html', 
-        current_user = user.User.getById({'id': session['user_id']}),
-        all_clothingitems = mydb.clothing_items.get_all_clothingitems()
-        )
-    return redirect('/')
-
-@app.route('/clothingitems/destroy/<int:id>')
-def destroy(id):
-    data ={
-        'id': id
-=======
 from flask import render_template,request, redirect,session, url_for, flash
 from FashApp.models import user
 from FashApp.models import clothing_category
@@ -78,46 +32,10 @@ def getintocategory(id,user_id):
     data = {
         "id": id,
         "user_id" : user_id
->>>>>>> f34ddf534d6f324e3423c869f0a6ea4c157a3ea1
     }
     print(data)
     return render_template('new_item_copy.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all(), clothingcatergoryid=clothing_category.Clothing_catagories.get_category_by_id(id), all_clothing = clothing_item.Clothing_items.show_clothing_by_user(data))
 
-<<<<<<< HEAD
-@app.route('/clothingitems/edit/<int:id>')
-def edit(id):
-    data ={ 
-    "id":id
-    }
-    return render_template("edit.html",clothing_item=mydb.clothing_items.get_one(data),current_user = user.User.getById({'id': session['user_id']}))
-
-@app.route('/clothingitems/edit/<int:id>',methods=['POST'])
-def update(id):
-    if not mydb.clothing_items.validate_clothingitems(request.form):
-        return redirect(f'/clothingitems/edit/{id}')
-    data ={
-    "name" : request.form['name'],
-    "cost" : request.form['cost'],
-    "material" : request.form['material'],
-    "style" : request.form['style'],
-    "primary_color" : request.form['primary_color'],
-    "secondary_color" : request.form['secondary_color'],
-    "location_aquired" : request.form['location_aquired'],
-    "img_path" : request.form['img_path'],
-    "created_at" : request.form['created_at'],
-    "updated_at" : request.form['updated_at'],
-    "id" : id
-    }
-    mydb.clothing_items.update(data)
-    return redirect('/clothingitems')
-
-@app.route('/clothingitem/show/<int:id>')
-def show(id):
-    data ={ 
-        "id":id
-    }
-    return render_template("view_outfit_items.html",clothing_item=mydb.clothing_items.get_one(data),current_user = user.User.getById({'id': session['user_id']}))
-=======
 @app.route('/new_clothing', methods=['get'])
 def new_clothing():
     
@@ -151,8 +69,12 @@ def create_clothing():
 			"location_aquired": request.form['location_aquired'],
 			"img_path": filename,
 			"user_id": request.form['user_id'],
-			"clothing_catagory_id": request.form['category_id']
+			"clothing_category_id": request.form['clothing_category_id'],
+			#^ Getting an error when this ran
+			#"id" : id
+			#Added ^ due to error on 72 / works but doesnt save
 		}
+
     
 		clothing_item.Clothing_items.insert_clothing_items(data)
 		print(file.filename, "this is the file name")
@@ -206,7 +128,7 @@ def create_item(id,user_id):
 			"location_aquired": request.form['location_aquired'],
 			"img_path": filename,
 			"user_id": request.form['user_id'],
-			"clothing_catagory_id": request.form['clothing_catagory_id']
+			"clothing_category_id": request.form['clothing_category_id']
 		}
     
 		clothing_item.Clothing_items.insert_clothing_items(data)
@@ -221,7 +143,6 @@ def create_item(id,user_id):
 def display_image(filename):
 	return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
->>>>>>> f34ddf534d6f324e3423c869f0a6ea4c157a3ea1
 
 @app.route('/category_clothing_list/<int:id>')
 def clothing_list(id):

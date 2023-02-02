@@ -3,8 +3,6 @@ from FashApp.models import user
 from FashApp.models import clothing_item
 
 
-
-
 class Clothing_catagories:
     DB = "fashion_inventory"
     
