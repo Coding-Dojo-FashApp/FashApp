@@ -220,3 +220,11 @@ class Clothing_items:
         WHERE id=%(id)s;
         """
         return connectToMySQL(mydb).query_db( query, data )
+
+    @classmethod
+    def delete(cls,data):
+        query  = '''
+        DELETE 
+        FROM clothing_items 
+        WHERE id = %(id)s;'''
+        return connectToMySQL(mydb).query_db(query, data)

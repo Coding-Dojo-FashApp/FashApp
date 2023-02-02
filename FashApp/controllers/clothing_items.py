@@ -82,7 +82,7 @@ def create_clothing():
 			"location_aquired": request.form['location_aquired'],
 			"img_path": filename,
 			"user_id": request.form['user_id'],
-			"clothing_category_id": request.form['clothing_category_id']
+			"clothing_category_id": request.form['category_id']
 		}
 
     
@@ -139,9 +139,17 @@ def update_clothing(id):
         clothing_item.Clothing_items.update_clothing(data)
     return redirect('/home')
 
-@app.route('/delete/<int:id>')
-def delete_clothing(id):
-    return clothing_item.Clothing_items
+@app.route('/delete_clothing/<int:id>/<int:category_id>')
+def delete_clothing(id, category_id):
+		data ={
+    'id': id
+    }
+		clothing_item.Clothing_items.delete(data)
+		return redirect(f'/category_clothing_list/{category_id}')
+
+#@app.route('/delete/<int:id>')
+#def delete_clothing(id):
+#	return clothing_item.Clothing_items
 
 
 @app.route('/new_clothing/<int:id>/<int:user_id>/', methods = ['post'])
@@ -201,7 +209,7 @@ def clothing_list(id):
 		clothing_in_category= clothing_item.Clothing_items.get_clothing_by_category(id)
 		return render_template('clothing_list.html',current_user = user.User.get_one(session["users_id"]), 
             category = clothing_category.Clothing_categories.get_category_by_id(id), 
-            all_category = clothing_category.Clothing_categories.get_all(), clothing_in_category=clothing_in_category)
+            all_category = clothing_category.Clothing_categories.get_all(), clothing_in_category=clothing_in_category, category_id = id)
 	return redirect('/')
 
 @app.route('/view_clothing/<int:id>')
