@@ -139,6 +139,22 @@
                           <p class = "text-primary text-center fs-4">Select a file to upload</p>
                           <input type="file" name="file" autocomplete="off" required>
                         </div>
+                        <script>
+                    
+                          const fileInput = document.querySelector('input[type="file"]');
+                      
+                          
+                          const myFile = new File([scr = "https://www.canva.com/design/DAFZcR6CmKg/hzmkvnO3YXQJYlW5jmdyQA/edit?utm_content=DAFZcR6CmKg&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" ], 'No Image Uploads.png', {
+                              type: 'image/jpeg',
+                              lastModified: new Date(),
+                          });
+                          
+                          
+                          const dataTransfer = new DataTransfer();
+                          dataTransfer.items.add(myFile);
+                          fileInput.files = dataTransfer.files;
+                          console.log(myFile)
+                      </script>
                       </div>
                       <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary m-3">Submit</button>
