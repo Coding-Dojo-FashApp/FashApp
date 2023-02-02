@@ -24,7 +24,7 @@ def new_category():
         "user_id": request.form['user_id'],
         "name": request.form['name']
     } 
-    clothing_category.Clothing_catagories.save(data)
+    clothing_category.Clothing_categories.save(data)
     return redirect('/home')
 
 @app.route('/getintocategory/<int:id>/<int:user_id>/', methods=['get'])
@@ -34,16 +34,16 @@ def getintocategory(id,user_id):
         "user_id" : user_id
     }
     print(data)
-    return render_template('new_item_copy.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all(), clothingcatergoryid=clothing_category.Clothing_catagories.get_category_by_id(id), all_clothing = clothing_item.Clothing_items.show_clothing_by_user(data))
+    return render_template('new_item_copy.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_categories.get_all(), clothingcatergoryid=clothing_category.Clothing_categories.get_category_by_id(id), all_clothing = clothing_item.Clothing_items.show_clothing_by_user(data))
 
 @app.route('/new_clothing', methods=['get'])
 def new_clothing():
     
-    return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
+    return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_categories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
 
 @app.route('/edit_clothing') # ummm why is this here?? why do you have two edits?  (Dan)
 def edit_clothing():
-    return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
+    return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_categories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
     
 
 @app.route('/create_clothing', methods=['POST'])
@@ -74,7 +74,7 @@ def create_clothing():
 			"location_aquired": request.form['location_aquired'],
 			"img_path": filename,
 			"user_id": request.form['user_id'],
-			"clothing_catagory_id": request.form['category_id']
+			"clothing_category_id": request.form['category_id']
 		}
     
 		clothing_item.Clothing_items.insert_clothing_items(data)
@@ -90,7 +90,7 @@ def edit_clothing_2(id):
     clothing = clothing_item.Clothing_items.get_clothing_by_id(id)
     print
     return render_template('edit.html',current_user = user.User.get_one(session["users_id"]), 
-        all_category = clothing_category.Clothing_catagories.get_all(),  
+        all_category = clothing_category.Clothing_categories.get_all(),  
         all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']),
         clothing = clothing)
 
@@ -122,7 +122,7 @@ def update_clothing(id):
 			"location_aquired": request.form['location_aquired'],
 			"img_path": filename,
 			"user_id": request.form['user_id'],
-			"clothing_catagory_id": request.form['category_id']
+			"clothing_category_id": request.form['category_id']
 		}
 	clothing_item.Clothing_items.update_clothing(data)
 	return redirect('/home')
@@ -163,7 +163,7 @@ def create_item(id,user_id):
 			"location_aquired": request.form['location_aquired'],
 			"img_path": filename,
 			"user_id": request.form['user_id'],
-			"clothing_catagory_id": request.form['clothing_catagory_id']
+			"clothing_category_id": request.form['clothing_category_id']
 		}
     
 		clothing_item.Clothing_items.insert_clothing_items(data)
@@ -184,12 +184,12 @@ def clothing_list(id):
 	if 'users_id' in session:
 		clothing_in_category= clothing_item.Clothing_items.get_clothing_by_category(id)
 		return render_template('clothing_list.html',current_user = user.User.get_one(session["users_id"]), 
-            category = clothing_category.Clothing_catagories.get_category_by_id(id), 
-            all_category = clothing_category.Clothing_catagories.get_all(), clothing_in_category=clothing_in_category)
+            category = clothing_category.Clothing_categories.get_category_by_id(id), 
+            all_category = clothing_category.Clothing_categories.get_all(), clothing_in_category=clothing_in_category)
 	return redirect('/')
 
 @app.route('/view_clothing/<int:id>')
 def view_clothing(id):
     a_clothing_item = clothing_item.Clothing_items.get_clothing_by_id(id)
-    all_category = clothing_category.Clothing_catagories.get_all()
+    all_category = clothing_category.Clothing_categories.get_all()
     return render_template("view_clothing.html", clothing_item = a_clothing_item, all_category = all_category)

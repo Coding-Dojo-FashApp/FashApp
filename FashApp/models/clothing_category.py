@@ -5,7 +5,7 @@ from FashApp.models import clothing_item
 
 
 
-class Clothing_catagories:
+class Clothing_categories:
     DB = "fashion_inventory"
     
     def __init__(self, data):
@@ -20,11 +20,11 @@ class Clothing_catagories:
 
     @classmethod
     def get_all(cls):
-        # print("\n __catagories get all method___")
-        query = "SELECT * FROM clothing_catagories LEFT JOIN users ON clothing_catagories.user_id = users.id"
+        # print("\n __categories get all method___")
+        query = "SELECT * FROM clothing_categories LEFT JOIN users ON clothing_categories.user_id = users.id"
         results = connectToMySQL(cls.DB).query_db(query)
 
-        catagories = []
+        categories = []
         
         for row in results:
             category = cls(row)
@@ -42,15 +42,15 @@ class Clothing_catagories:
             
             category.user = user.User(user_data)
             category.num_of = len(clothing_item.Clothing_items.get_clothing_by_category(category.id))
-            catagories.append(category)
-            # print(catagories)
-        return catagories
+            categories.append(category)
+            # print(categories)
+        return categories
     
     @classmethod 
     def get_category_by_id(cls,id):
-        # print("\n __catagories get by id method___")
+        # print("\n __categories get by id method___")
         data = {"id" : id}
-        query = "SELECT * FROM clothing_catagories LEFT JOIN users ON clothing_catagories.user_id = users.id WHERE clothing_catagories.id = %(id)s"
+        query = "SELECT * FROM clothing_categories LEFT JOIN users ON clothing_categories.user_id = users.id WHERE clothing_categories.id = %(id)s"
         results = connectToMySQL(cls.DB).query_db(query, data)
         row = results[0]
         category = cls(row)
@@ -72,5 +72,5 @@ class Clothing_catagories:
     @classmethod
     def save(cls, data):
         print("\n __clothing_categories Save Method__")
-        query = "INSERT INTO clothing_catagories ( name, created_at, updated_at, user_id) VALUES ( %(name)s, NOW(), NOW(), %(user_id)s );"
+        query = "INSERT INTO clothing_categories ( name, created_at, updated_at, user_id) VALUES ( %(name)s, NOW(), NOW(), %(user_id)s );"
         return connectToMySQL(cls.DB).query_db( query, data )
