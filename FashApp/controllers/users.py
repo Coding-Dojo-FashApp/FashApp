@@ -1,7 +1,8 @@
 from FashApp import app
-from flask import render_template,request, redirect,session
+from flask import render_template,request, redirect, session
 from FashApp.models import user
 from FashApp.models import clothing_category
+from FashApp.models import outfit
 from datetime import datetime
 from flask_bcrypt import Bcrypt
 from flask import flash
@@ -56,6 +57,9 @@ def logout():
 @app.route('/home') 
 def index_home():
     if 'users_id' in session:
+        current_user = user.User.get_one(session["users_id"])
+        all_category = clothing_category.Clothing_categories.get_all()
+        outfits = outfit.Outfit.get_all_by_user_id(int(session['users_id']))
 
-        return render_template('index.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_categories.get_all() )
+        return render_template('index.html',current_user = current_user, all_category = all_category, outfits = outfits )
     return redirect('/')

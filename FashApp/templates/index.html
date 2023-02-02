@@ -52,6 +52,22 @@
             </div>
         </div> 
     </nav>
+    <br><br><br>
+    <h1 class="user_name">{{current_user.first_name}}'s Outfits</h1>
+    <div class="container">
+        <div class="d-flex flex-wrap ">
+            {% if outfits %}
+            {% for outfit in outfits %}
+            <div class="outfit_box">
+                <h3><a href="/show_outfit/{{outfit.id}}">{{outfit.name}}</a><h3>
+                <pf>{{outfit.description}}</p>
+            </div>
+            {% endfor %}
+            {% else %}
+            <h3>No Outfits currently too display</h3>
+            {% endif %}
+        </div>
+    </div>
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/index.js') }}"></script>
 </body>
 </html>
