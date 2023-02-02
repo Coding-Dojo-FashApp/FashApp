@@ -66,13 +66,14 @@
                     <img src="{{ url_for('display_image', filename=filename) }}">
                 </div>
                 {% endif %}
-                <div class="d-">
-                    <p class="fs-3" style="color: white;">Edit Clothing Item</p><br>
+                <div class="d-flex justify-content-center ">
+                    <p class="fs-1" style="color: white;">Edit Clothing Item</p><br>
                 </div>
-                <form method="post" action="/create_clothing" enctype="multipart/form-data" style="display: flex; margin: 20px;">
+                <form method="post" action="/update/{{clothing.id}}" enctype="multipart/form-data" style="display: flex; margin: 20px;">
                     <dl style="display: flex; width: 100%; border-style: solid; border-radius: 5px;">
                         <div>
                             <div class="d-flex flex-wrap"> 
+                                <input type="hidden" name="id" value="{{clothing.id}}">
                                 <input type="hidden" name="user_id" value="{{current_user.id}}">
                                 <div class="mb-3" style="margin:10px;">
                                     <label for="name" class="form-label">clothing name</label>
