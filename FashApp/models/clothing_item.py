@@ -42,7 +42,7 @@ class Clothing_items:
         if int(res['cost']) <= 0:
             flash("price is Required")
             is_valid = False
-        elif int(res['cost']) <= 3:
+        elif int(res['cost']) <= 3: # Why dies price need to be 3 characters??? (Dan)
             flash("price must must be at least 3 characters.")
             is_valid = False
         if len(res['style']) < 0:
@@ -86,9 +86,10 @@ class Clothing_items:
         data = {
             "id" : id
         }
-        query =  "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_category_id= clothing_catagories.id left join users on clothing_items.user_id = users.id WHERE users.id = %(id)s" 
+
+        query =  "SELECT * FROM clothing_items LEFT JOIN clothing_categories ON clothing_items.clothing_category_id= clothing_categories.id left join users on clothing_items.user_id = users.id WHERE users.id = %(id)s" 
         results = connectToMySQL(mydb).query_db(query,data)
-        catagories = []
+        categories = []
         
         for row in results: 
             category = cls(row)
@@ -105,22 +106,22 @@ class Clothing_items:
             }
             
             category.user = user.User(user_data)
-            catagories.append(category)
+            categories.append(category)
 
-        return catagories
+        return categories
     
     
     
     @classmethod
     def get_clothing_by_category(cls,id):
         data={"id" : id}
-        query =  """SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON 
-        clothing_items.clothing_category_id= clothing_catagories.id left join users on 
-        clothing_items.user_id = users.id WHERE clothing_catagories.id = %(id)s ORDER BY 
+        query =  """SELECT * FROM clothing_items LEFT JOIN clothing_categories ON 
+        clothing_items.clothing_category_id= clothing_categories.id left join users on 
+        clothing_items.user_id = users.id WHERE clothing_categories.id = %(id)s ORDER BY 
         clothing_items.name ASC ;
         """ 
         results = connectToMySQL(mydb).query_db(query,data)
-        catagories = []
+        categories = []
 
         if results:
             for row in results: 
@@ -138,14 +139,14 @@ class Clothing_items:
                 }
                 
                 category.user = user.User(user_data)
-                catagories.append(category)
+                categories.append(category)
 
-        return catagories
+        return categories
     
     
     @classmethod
     def get_all_clothing(cls):
-        query = "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_category_id = clothing_category.id LEFT JOIN users on clothing_items.user_id = user.id ORDER BY clothing_items.name;"
+        query = "SELECT * FROM clothing_items LEFT JOIN clothing_categories ON clothing_items.clothing_category_id = clothing_category.id LEFT JOIN users on clothing_items.user_id = user.id ORDER BY clothing_items.name;"
         results = connectToMySQL(mydb).query_db(query)
 
         all_clothing = []
@@ -162,15 +163,15 @@ class Clothing_items:
             }
 
             category_data ={
-                "id" : row['clothing_catagories.id'],
-                "name" : row['clothing_catagories.name'],
-                "created_at" : row['clothing_catagories.created_at'],
-                "updated_at" : row['clothing_catagories.updated_at'],
-                "user_id" : row['clothing_catagories.user_id']
+                "id" : row['clothing_categories.id'],
+                "name" : row['clothing_categories.name'],
+                "created_at" : row['clothing_categories.created_at'],
+                "updated_at" : row['clothing_categories.updated_at'],
+                "user_id" : row['clothing_categories.user_id']
             }
             
             clothing = cls(row)
-            clothing.category = clothing_category.Clothing_catagories(category_data)
+            clothing.category = clothing_category.Clothing_categories(category_data)
             clothing.user = user.User(user_data)
             
             all_clothing.append(clothing)
@@ -179,7 +180,8 @@ class Clothing_items:
     @classmethod
     def get_clothing_by_id(cls,id):
         data = {"id" : id}
-        query = "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_category_id = clothing_catagories.id LEFT JOIN users on clothing_items.user_id = users.id  ORDER BY clothing_items.name;"
+
+        query = "SELECT * FROM clothing_items LEFT JOIN clothing_categories ON clothing_items.clothing_category_id = clothing_categories.id LEFT JOIN users on clothing_items.user_id = users.id WHERE clothing_items.id = %(id)s;"
         result = connectToMySQL(mydb).query_db(query, data)
 
         row = result[0]
@@ -196,15 +198,25 @@ class Clothing_items:
         }
 
         category_data ={
-            "id" : row['clothing_catagories.id'],
-            "name" : row['clothing_catagories.name'],
-            "created_at" : row['clothing_catagories.created_at'],
-            "updated_at" : row['clothing_catagories.updated_at'],
-            "user_id" : row['clothing_catagories.user_id']
+            "id" : row['clothing_categories.id'],
+            "name" : row['clothing_categories.name'],
+            "created_at" : row['clothing_categories.created_at'],
+            "updated_at" : row['clothing_categories.updated_at'],
+            "user_id" : row['clothing_categories.user_id']
         }
         
         clothing = cls(row)
-        clothing.category = clothing_category.Clothing_catagories(category_data)
+        clothing.category = clothing_category.Clothing_categories(category_data)
         clothing.user = user.User(user_data)
         
         return clothing
+    
+    @classmethod
+    def update_clothing(cls,data):
+        print("\n___update data", data)
+        query = """UPDATE clothing_items SET name=%(name)s, cost=%(cost)s, material=%(material)s, 
+        style=%(style)s, primary_color=%(primary_color)s, secondary_color=%(secondary_color)s, 
+        location_aquired=%(location_aquired)s, img_path=%(img_path)s, clothing_category_id=%(clothing_category_id)s
+        WHERE id=%(id)s;
+        """
+        return connectToMySQL(mydb).query_db( query, data )
