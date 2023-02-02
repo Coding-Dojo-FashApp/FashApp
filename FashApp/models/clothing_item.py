@@ -208,3 +208,13 @@ class Clothing_items:
         clothing.user = user.User(user_data)
         
         return clothing
+    
+    @classmethod
+    def update_clothing(cls,data):
+        print("\n___update data", data)
+        query = """UPDATE clothing_items SET name=%(name)s, cost=%(cost)s, material=%(material)s, 
+        style=%(style)s, primary_color=%(primary_color)s, secondary_color=%(secondary_color)s, 
+        location_aquired=%(location_aquired)s, img_path=%(img_path)s, clothing_catagory_id=%(clothing_catagory_id)s
+        WHERE id=%(id)s;
+        """
+        return connectToMySQL(mydb).query_db( query, data )

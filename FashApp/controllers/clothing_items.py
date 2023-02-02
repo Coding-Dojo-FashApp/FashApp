@@ -86,6 +86,7 @@ def create_clothing():
 		return redirect(request.url)
 
 @app.route('/edit_clothing/<int:id>')
+
 def edit_clothing_2(id):
     clothing = clothing_item.Clothing_items.get_clothing_by_id(id)
     return render_template('edit.html',current_user = user.User.get_one(session["users_id"]), 
@@ -93,7 +94,42 @@ def edit_clothing_2(id):
         all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']),
         clothing = clothing)
 
+@app.route('/update/<int:id>', methods=['POST'])
+def update_clothing(id):
+	if 'file' not in request.files: 
+		flash('No file part')
+	if not clothing_item.Clothing_items.validate_post(request.form):
+		
+		return redirect(f'/getintocategory/{id}/{user_id}/')
+	file = request.files['file']
+	if file.filename == '': 
+		flash('No image selected for uploading')
+		return redirect(request.url) 
+	if file and allowed_file(file.filename):
+		filename = secure_filename(file.filename) 
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		print(file.filename)
+		print('upload_image filename: ' + filename)
+		flash('Image successfully uploaded and displayed below')
+		data = {
+			"id" : request.form['id'],
+			"name": request.form['name'],
+			"material": request.form['material'],
+			"cost": request.form['cost'],
+			"style": request.form['style'],
+			"primary_color": request.form['primary_color'],
+			"secondary_color": request.form['secondary_color'], 
+			"location_aquired": request.form['location_aquired'],
+			"img_path": filename,
+			"user_id": request.form['user_id'],
+			"clothing_catagory_id": request.form['category_id']
+		}
+	clothing_item.Clothing_items.update_clothing(data)
+	return redirect('/home')
 
+@app.route('/delete/<int:id>')
+def delete_clothing(id):
+    return clothing_item.Clothing_items
 
 
 @app.route('/new_clothing/<int:id>/<int:user_id>/', methods = ['post'])
