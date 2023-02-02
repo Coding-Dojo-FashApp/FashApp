@@ -20,6 +20,8 @@ def allowed_file(filename):
 
 @app.route('/create_category', methods = ['Post']) 
 def new_category():
+    if 'users_id' not in session:
+        return redirect("/")
     data = { 
         "user_id": request.form['user_id'],
         "name": request.form['name']
@@ -29,6 +31,8 @@ def new_category():
 
 @app.route('/getintocategory/<int:id>/<int:user_id>/', methods=['get'])
 def getintocategory(id,user_id):
+    if 'users_id' not in session:
+        return redirect("/")
     data = {
         "id": id,
         "user_id" : user_id
@@ -38,17 +42,21 @@ def getintocategory(id,user_id):
 
 @app.route('/new_clothing', methods=['get'])
 def new_clothing():
-    
+    if 'users_id' not in session:
+        return redirect("/")
     return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_categories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
 
 @app.route('/edit_clothing') # ummm why is this here?? why do you have two edits?  (Dan)
 def edit_clothing():
+    if 'users_id' not in session:
+        return redirect("/")
     return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_categories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
     
 
 @app.route('/create_clothing', methods=['POST'])
 def create_clothing():
-    
+	if 'users_id' not in session:
+		return redirect("/")
 	if 'file' not in request.files: 
 		flash('No file part')
 	if not clothing_item.Clothing_items.validate_post(request.form):
@@ -87,31 +95,34 @@ def create_clothing():
 
 @app.route('/edit_clothing/<int:id>')
 def edit_clothing_2(id):
-    clothing = clothing_item.Clothing_items.get_clothing_by_id(id)
-    print
-    return render_template('edit.html',current_user = user.User.get_one(session["users_id"]), 
+	if 'users_id' not in session:
+		return redirect("/")
+	clothing = clothing_item.Clothing_items.get_clothing_by_id(id)
+	print
+	return render_template('edit.html',current_user = user.User.get_one(session["users_id"]), 
         all_category = clothing_category.Clothing_categories.get_all(),  
         all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']),
         clothing = clothing)
 
 @app.route('/update/<int:id>', methods=['POST'])
 def update_clothing(id):
-	if 'file' not in request.files: 
-		flash('No file part')
-	if not clothing_item.Clothing_items.validate_post(request.form):
-		
-		return redirect(f'/getintocategory/{id}/{user_id}/')
-	file = request.files['file']
-	if file.filename == '': 
-		flash('No image selected for uploading')
-		return redirect(request.url) 
-	if file and allowed_file(file.filename):
-		filename = secure_filename(file.filename) 
-		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-		print(file.filename)
-		print('upload_image filename: ' + filename)
-		flash('Image successfully uploaded and displayed below')
-		data = {
+    if 'users_id' not in session:
+        return redirect("/")
+    if 'file' not in request.files: 
+        flash('No file part')
+    if not clothing_item.Clothing_items.validate_post(request.form):
+        return redirect(f'/getintocategory/{id}/{user_id}/')
+    file = request.files['file']
+    if file.filename == '': 
+        flash('No image selected for uploading')
+        return redirect(request.url) 
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename) 
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        print(file.filename)
+        print('upload_image filename: ' + filename)
+        flash('Image successfully uploaded and displayed below')
+        data = {
 			"id" : request.form['id'],
 			"name": request.form['name'],
 			"material": request.form['material'],
@@ -124,8 +135,8 @@ def update_clothing(id):
 			"user_id": request.form['user_id'],
 			"clothing_category_id": request.form['category_id']
 		}
-	clothing_item.Clothing_items.update_clothing(data)
-	return redirect('/home')
+        clothing_item.Clothing_items.update_clothing(data)
+    return redirect('/home')
 
 @app.route('/delete/<int:id>')
 def delete_clothing(id):
@@ -134,6 +145,8 @@ def delete_clothing(id):
 
 @app.route('/new_clothing/<int:id>/<int:user_id>/', methods = ['post'])
 def create_item(id,user_id):
+	if 'users_id' not in session:
+		return redirect('/')
 	newdata = {
 		"id": id,
 		"user_id" : user_id
@@ -176,7 +189,9 @@ def create_item(id,user_id):
 
 @app.route('/display/<filename>')
 def display_image(filename):
-	return redirect(url_for('static', filename='uploads/' + filename), code=301)
+    if 'users_id' not in session:
+        return redirect('/')
+    return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
 
 @app.route('/category_clothing_list/<int:id>')
@@ -190,6 +205,8 @@ def clothing_list(id):
 
 @app.route('/view_clothing/<int:id>')
 def view_clothing(id):
+    if 'users_id' not in session:
+        return redirect('/')
     a_clothing_item = clothing_item.Clothing_items.get_clothing_by_id(id)
     all_category = clothing_category.Clothing_categories.get_all()
     return render_template("view_clothing.html", clothing_item = a_clothing_item, all_category = all_category)

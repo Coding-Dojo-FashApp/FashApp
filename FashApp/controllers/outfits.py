@@ -9,6 +9,8 @@ from datetime import datetime
 
 @app.route("/new_outfit")
 def new_outfit():
+    if 'users_id' not in session:
+        return redirect("/")
     current_user = user.User.get_one(session['users_id'])
     clothing_by_category = {}
     all_category = clothing_category.Clothing_categories.get_all()
@@ -31,6 +33,8 @@ def remove_first(array):
 
 @app.route("/create_outfit", methods = ['POST'])
 def save_new_outfit():
+    if 'users_id' not in session:
+        return redirect("/")
     clothingIdArray = []
     dictionary = request.form.to_dict()
     print(dictionary)
