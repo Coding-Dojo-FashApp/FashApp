@@ -41,6 +41,11 @@ def new_clothing():
     
     return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
 
+@app.route('/edit_clothing')
+def edit_clothing():
+    return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
+    
+
 @app.route('/create_clothing', methods=['POST'])
 def create_clothing():
     
@@ -81,15 +86,14 @@ def create_clothing():
 		return redirect(request.url)
 
 @app.route('/edit_clothing/<int:id>')
-def edit_clothing(id):
+
+def edit_clothing_2(id):
     clothing = clothing_item.Clothing_items.get_clothing_by_id(id)
-    
-    
     return render_template('edit.html',current_user = user.User.get_one(session["users_id"]), 
         all_category = clothing_category.Clothing_catagories.get_all(),  
         all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']),
         clothing = clothing)
-    
+
 @app.route('/update/<int:id>', methods=['POST'])
 def update_clothing(id):
 	if 'file' not in request.files: 
@@ -126,8 +130,6 @@ def update_clothing(id):
 @app.route('/delete/<int:id>')
 def delete_clothing(id):
     return clothing_item.Clothing_items
-
-
 
 
 @app.route('/new_clothing/<int:id>/<int:user_id>/', methods = ['post'])
