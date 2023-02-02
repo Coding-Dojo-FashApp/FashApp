@@ -18,7 +18,7 @@ def new_outfit():
     for category in all_category:
         clothing_by_category[category.name] = clothing_item.Clothing_items.get_clothing_by_category(category.id)
     for clothing in clothing_by_category:
-        print("Clothing in category", clothing_by_category[clothing])
+        print(f"Clothing in category {clothing}", clothing_by_category[clothing])
     return render_template("create_outfit.html", current_user = current_user, clothing_by_category = clothing_by_category, all_category = all_category)
 
 
@@ -47,8 +47,8 @@ def save_new_outfit():
     
     outfit_items = []
     for category in categories:
-        if request.form[category.name] != 'none':
-            outfit_items.append(request.form[category.name])
+        if request.form[category.name] and  request.form[category.name] != 'none':
+            outfit_items.append(int(request.form[category.name]))
             
     data['outfit_items'] = json.dumps(outfit_items)
             

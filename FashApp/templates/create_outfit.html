@@ -67,7 +67,6 @@
                             {% with category_name = category.title() %}
                             <label class = "form-label" style="margin-right: 20px;" for="{{category}}">{{category_name}}</label>
                             {% endwith %}
-                            {% if clothing_by_category[category]  %}
                                 <Select class = "form_item" name="{{category}}" style="margin-right: 1rem;">
                                     <option value="none" selected>None</option>
                                 {% for clothing in clothing_by_category[category] %}
@@ -76,7 +75,6 @@
                                     {% endwith %}
                                 {% endfor %}
                                 </Select>
-                            {% endif %}
                         </div>
                         {% endfor %}
                     </div>

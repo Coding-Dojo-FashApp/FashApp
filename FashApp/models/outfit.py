@@ -15,8 +15,12 @@ class Outfit:
         outfit_items = json.loads(data['outfit_items'])
         clothing = []
         for item in outfit_items:
+            print("\n__ Item in Outfit_items in Outfit constructor___",item)
             outfit_item = clothing_item.Clothing_items.get_clothing_by_id(int(item))
-            clothing.append(outfit_item)
+            if outfit_item:
+                clothing.append(outfit_item)
+            else:
+                clothing.append(None)
         self.outfit_items = clothing
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
