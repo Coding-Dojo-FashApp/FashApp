@@ -184,7 +184,10 @@ class Clothing_items:
         query = "SELECT * FROM clothing_items LEFT JOIN clothing_categories ON clothing_items.clothing_category_id = clothing_categories.id LEFT JOIN users on clothing_items.user_id = users.id WHERE clothing_items.id = %(id)s;"
         result = connectToMySQL(mydb).query_db(query, data)
 
-        row = result[0]
+        if result:
+            row = result[0]
+        else:
+            return False
         
         user_data = {
             "id" : row['users.id'],

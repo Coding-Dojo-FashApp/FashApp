@@ -61,6 +61,7 @@
     </div>
     <div class="box1 d-flex flex-wrap mt-3 justify-content-center">
         {%for clothing in outfit.outfit_items %}
+        {% if clothing %}
         <div class="box2" style="background-color:deeppink; color: white;">
             <a href="/view_clothing/{{clothing.id}}">
                 <img class = "clothing-image" src="/static/uploads/{{clothing.img_path}}/" alt="{{clothing.img_path}}" >
@@ -71,7 +72,13 @@
             <p>Location: {{clothing.location_aquired}}</p>
             
         </div>
-        {%endfor%}
+        {% else %}
+        <div class="d-flex justify-content-center flex-column box3">
+            <h4>This Item has been deleted</h4>
+            <h4>from the database.</h4>
+        </div>
+        {% endif %}
+        {% endfor %}
     </div>
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/index.js') }}"></script>
 </body>
