@@ -30,7 +30,7 @@
                                 <input type="hidden" name="user_id" value="{{current_user.id}}">
                                 <ul class="list-unstyled">
                                     {% for x in all_category %}
-                                    <li><a href="/getintocategory/{{x.id}}/{{current_user.id}}">{{x.name}}</a></li>
+                                    <li><a href="/category_clothing_list/{{x.id}}">{{x.name}}</a> ({{x.num_of}})</li>
                                     {%endfor%}
                                 </ul>
                                 <!-- <p>all_category[0].user.last_name</p> -->
@@ -50,26 +50,25 @@
     </nav>
     <br><br><br>
     <div class="container">
-        <div class="w-75 border border-dark" style="border-radius: 20px;">
-            <h2 class="text-center">Create an Outfit</h2>
-            
+        <div class="w-75 border border-dark" style="border-radius: 20px; padding:40px;">
+            <h2 class=" text-center text-primary">Create an Outfit</h2>
             <form action="/create_outfit" class="p-3" method="post" id="outfit_form">
-                <label style="margin-right: 20px;" for="name"><strong>Outfit Name</strong></label>
+                <div class = "bottom" >
+                <label class = "form-label" for="name"><strong>Outfit Name</strong></label>
                 <input type="text" name="name" >
                 {% for category in clothing_by_category %}
-                <div class="mt-3">
-                    <label style="margin-right: 20px;" for="{{category}}">{{category}}</label>
+                    <label class = "form-label form-item" style="margin-right: 20px;" for="{{category}}">{{category}}</label>
                     {% if clothing_by_category[category]  %}
-                    <Select name="{{category}}">
+                    <Select class -= "form_item" name="{{category}}">
                     {% for clothing in clothing_by_category[category] %}
-                        <option value="{{clothing.id}}">{{clothing.name}}</option>
+                        <option  value="{{clothing.id}}">{{clothing.name}}</option>
                     {% endfor %}
                     </Select>
                     {% endif %}
-                </div>
-                {% endfor %}
-                <div>
-                    <input class = "btn btn-primary" type = "submit" value ="create outfit">
+                    {% endfor %}
+                    <div class = "form-item">
+                        <input class = "btn btn-primary" type = "submit" value ="create outfit">
+                    </div>
                 </div>
             
             

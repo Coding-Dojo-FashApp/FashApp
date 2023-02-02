@@ -41,6 +41,11 @@ def new_clothing():
     
     return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
 
+@app.route('/edit_clothing')
+def edit_clothing():
+    return render_template('new_item.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all(),  all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']))
+    
+
 @app.route('/create_clothing', methods=['POST'])
 def create_clothing():
     
@@ -79,6 +84,16 @@ def create_clothing():
 	else:
 		flash('Allowed image types are -> png, jpg, jpeg, gif') 
 		return redirect(request.url)
+
+@app.route('/edit_clothing/<int:id>')
+def edit_clothing_2(id):
+    clothing = clothing_item.Clothing_items.get_clothing_by_id(id)
+    return render_template('edit.html',current_user = user.User.get_one(session["users_id"]), 
+        all_category = clothing_category.Clothing_catagories.get_all(),  
+        all_clothing = clothing_item.Clothing_items.show_clothing_by_user(session['users_id']),
+        clothing = clothing)
+
+
 
 
 @app.route('/new_clothing/<int:id>/<int:user_id>/', methods = ['post'])
@@ -126,3 +141,19 @@ def create_item(id,user_id):
 @app.route('/display/<filename>')
 def display_image(filename):
 	return redirect(url_for('static', filename='uploads/' + filename), code=301)
+
+
+@app.route('/category_clothing_list/<int:id>')
+def clothing_list(id):
+	if 'users_id' in session:
+		clothing_in_category= clothing_item.Clothing_items.get_clothing_by_category(id)
+		return render_template('clothing_list.html',current_user = user.User.get_one(session["users_id"]), 
+            category = clothing_category.Clothing_catagories.get_category_by_id(id), 
+            all_category = clothing_category.Clothing_catagories.get_all(), clothing_in_category=clothing_in_category)
+	return redirect('/')
+
+@app.route('/view_clothing/<int:id>')
+def view_clothing(id):
+    a_clothing_item = clothing_item.Clothing_items.get_clothing_by_id(id)
+    all_category = clothing_category.Clothing_catagories.get_all()
+    return render_template("view_clothing.html", clothing_item = a_clothing_item, all_category = all_category)

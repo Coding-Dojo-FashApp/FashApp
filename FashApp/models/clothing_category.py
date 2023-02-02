@@ -1,5 +1,7 @@
 from FashApp.config.mysqlconnection import connectToMySQL
 from FashApp.models import user
+from FashApp.models import clothing_item
+
 
 
 
@@ -13,6 +15,7 @@ class Clothing_catagories:
         self.updated_at = data['updated_at']
         self.user_id = data['user_id']
         self.user = []
+        self.num_of = None
 
 
     @classmethod
@@ -38,6 +41,7 @@ class Clothing_catagories:
             }
             
             category.user = user.User(user_data)
+            category.num_of = len(clothing_item.Clothing_items.get_clothing_by_category(category.id))
             catagories.append(category)
             # print(catagories)
         return catagories
@@ -60,6 +64,7 @@ class Clothing_catagories:
             "updated_at" : row["users.updated_at"]
         }
         category.user = user.User(user_data)
+        category.num_of = len(clothing_item.Clothing_items.get_clothing_by_category(category.id))
         print(category)
         return category
     

@@ -52,6 +52,42 @@
             </div>
         </div> 
     </nav>
+    <br><br><br>
+    <div class="container d-flex flex-column">
+        <div>
+            <p class="fs-3">{{category.name}}</p>
+        </div>
+        <div class=" border border-dark " style="height: 250px; overflow: auto;">
+            <table class="table table-hover border border-dark" style="background-color: deeppink;">
+                <tr style="position: sticky; top: 0px; background-color: rgb(233, 220, 220);">
+                    <th>Name</th>
+                    <th>Style</th>
+                    <th>Material</th>
+                    <th>Primary Color</th>
+                    <th>Cost</th>
+                    <th>location Acquired</th>
+                    <th>Actions</th>
+                </tr>
+                {% for clothing in clothing_in_category %}
+                <a href=""></a>
+                <tr>
+                    <td><a href="/view_clothing/{{clothing.id}}" style="color: black;">{{clothing.name}}</a></td>
+                    <td>{{clothing.style}}</td>
+                    <td>{{clothing.material}}</td>
+                    <td>{{clothing.primary_color}}</td>
+                    <td>{{clothing.cost}}</td>
+                    <td>{{clothing.location_aquired}}</td>
+                    <td>
+                        <a href="/edit_clothing/{{clothing.id}}" style="color: black;">Edit</a>
+                        <span> | </span>
+                        <a href="/delete_clothing/{{clothing.id}}" style="color: black;">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
 <script type="text/javascript" src="{{ url_for('static', filename='javascript/index.js') }}"></script>
 </body>
 </html>

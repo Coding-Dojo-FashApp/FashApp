@@ -74,6 +74,7 @@ form{
 
 .btn-primary{
     font-family: "pacifico";
+    margin:30px;
     font-size:25px;
     background-color: rgb(131, 56, 236);
 }
@@ -82,6 +83,7 @@ form{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 }
 
 .navbar {
@@ -125,6 +127,11 @@ form{
     margin-left:30px;
     height:fit-content;
 
+}
+
+.form_item {
+    margin-top: 40px;
+    margin-bottom: 50px;
 }
 .clothing-image {
     height:300px;
