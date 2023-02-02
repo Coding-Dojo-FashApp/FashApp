@@ -42,7 +42,7 @@ class Clothing_items:
         if int(res['cost']) <= 0:
             flash("price is Required")
             is_valid = False
-        elif int(res['cost']) <= 3:
+        elif int(res['cost']) <= 3: # Why dies price need to be 3 characters??? (Dan)
             flash("price must must be at least 3 characters.")
             is_valid = False
         if len(res['style']) < 0:
@@ -179,7 +179,7 @@ class Clothing_items:
     @classmethod
     def get_clothing_by_id(cls,id):
         data = {"id" : id}
-        query = "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_catagory_id = clothing_catagories.id LEFT JOIN users on clothing_items.user_id = users.id  ORDER BY clothing_items.name;"
+        query = "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_catagory_id = clothing_catagories.id LEFT JOIN users on clothing_items.user_id = users.id WHERE clothing_items.id = %(id)s;"
         result = connectToMySQL(mydb).query_db(query, data)
 
         row = result[0]

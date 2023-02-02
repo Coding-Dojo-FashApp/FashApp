@@ -31,7 +31,6 @@
                         <input type="hidden" name="user_id" value="{{current_user.id}}">
                         <ul class="list-unstyled">
                             {% for x in all_category %}
-                            <li>{{x.name}}</li>
                             <li><a href="/category_clothing_list/{{x.id}}">{{x.name}}</a> ({{x.num_of}})</li>
                             {%endfor%}
                         </ul>
