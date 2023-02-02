@@ -86,7 +86,7 @@ class Clothing_items:
         data = {
             "id" : id
         }
-        query =  "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_category_id= clothing_catagories.id left join users on clothing_items.user_id = users.id WHERE users.id = %(id)s" 
+        query =  "SELECT * FROM clothing_items LEFT JOIN clothing_catagories ON clothing_items.clothing_catagory_id= clothing_catagories.id left join users on clothing_items.user_id = users.id WHERE users.id = %(id)s" 
         results = connectToMySQL(mydb).query_db(query,data)
         catagories = []
         
