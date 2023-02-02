@@ -86,6 +86,7 @@ class Clothing_items:
         data = {
             "id" : id
         }
+
         query =  "SELECT * FROM clothing_items LEFT JOIN clothing_categories ON clothing_items.clothing_category_id= clothing_categories.id left join users on clothing_items.user_id = users.id WHERE users.id = %(id)s" 
         results = connectToMySQL(mydb).query_db(query,data)
         categories = []
@@ -179,6 +180,7 @@ class Clothing_items:
     @classmethod
     def get_clothing_by_id(cls,id):
         data = {"id" : id}
+
         query = "SELECT * FROM clothing_items LEFT JOIN clothing_categories ON clothing_items.clothing_category_id = clothing_categories.id LEFT JOIN users on clothing_items.user_id = users.id WHERE clothing_items.id = %(id)s;"
         result = connectToMySQL(mydb).query_db(query, data)
 

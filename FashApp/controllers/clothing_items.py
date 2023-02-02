@@ -82,8 +82,9 @@ def create_clothing():
 			"location_aquired": request.form['location_aquired'],
 			"img_path": filename,
 			"user_id": request.form['user_id'],
-			"clothing_category_id": request.form['category_id']
+			"clothing_category_id": request.form['clothing_category_id']
 		}
+
     
 		clothing_item.Clothing_items.insert_clothing_items(data)
 		print(file.filename, "this is the file name")
