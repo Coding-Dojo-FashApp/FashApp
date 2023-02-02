@@ -57,5 +57,5 @@ def logout():
 def dashboard():
     if 'users_id' in session:
 
-        return render_template('index.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_catagories.get_all() )
+        return render_template('index.html',current_user = user.User.get_one(session["users_id"]), all_category = clothing_category.Clothing_categories.get_all() )
     return redirect('/')

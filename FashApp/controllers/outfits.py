@@ -11,7 +11,7 @@ from datetime import datetime
 def new_outfit():
     current_user = user.User.get_one(session['users_id'])
     clothing_by_category = {}
-    all_category = clothing_category.Clothing_catagories.get_all()
+    all_category = clothing_category.Clothing_categories.get_all()
     for category in all_category:
         clothing_by_category[category.name] = clothing_item.Clothing_items.get_clothing_by_category(category.id)
     print(category)
