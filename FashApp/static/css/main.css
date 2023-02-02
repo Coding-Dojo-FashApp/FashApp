@@ -28,6 +28,28 @@ body {
 
 
 }
+
+.user_name {
+    display:inline-block;
+    border-radius: 10px;
+    box-shadow: 5px 5px 3px rgb(70, 8, 156, .5);
+    margin: auto;
+    margin-left: 6rem;
+    padding: 20px;
+    background-color: rgba(250, 188, 215, 0.945);
+}
+
+.outfit_box {
+    display:inline-block;
+    border-radius: 10px;
+    box-shadow: 5px 5px 3px rgb(70, 8, 156, .5);
+    margin: auto;
+    margin-left: 6rem;
+    padding: 20px;
+    background-color: rgba(246, 146, 189, 0.945);
+    margin-bottom: 2rem;
+}
+
 .container{
     display: flex;
     justify-content: center;
@@ -35,7 +57,7 @@ body {
     border-radius: 10px;
     box-shadow: 5px 5px 3px rgb(70, 8, 156, .5);
     margin: auto;
-    padding: 60px;
+    padding: 30px;
     background-color: rgba(250, 188, 215, 0.945);
     width: 50%;
 } 

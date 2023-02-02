@@ -24,7 +24,7 @@ def new_category():
         return redirect("/")
     data = { 
         "user_id": request.form['user_id'],
-        "name": request.form['name']
+        "name": request.form['name'].title()
     } 
     clothing_category.Clothing_categories.save(data)
     return redirect('/home')
@@ -73,7 +73,7 @@ def create_clothing():
 		print('upload_image filename: ' + filename)
 		flash('Image successfully uploaded and displayed below')
 		data = {
-			"name": request.form['name'],
+			"name": request.form['name'].title(),
 			"material": request.form['material'],
 			"cost": request.form['cost'],
 			"style": request.form['style'],

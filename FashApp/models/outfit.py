@@ -15,7 +15,7 @@ class Outfit:
         outfit_items = json.loads(data['outfit_items'])
         clothing = []
         for item in outfit_items:
-            outfit_item = clothing_item.Clothing_items.get_clothing_by_id(outfit_items[item])
+            outfit_item = clothing_item.Clothing_items.get_clothing_by_id(int(item))
             clothing.append(outfit_item)
         self.outfit_items = clothing
         self.created_at = data['created_at']
@@ -53,6 +53,7 @@ class Outfit:
 
         row = result[0]
         user_data = {
+            "id" : row['id'],
             "first_name" : row['first_name'],
             "last_name" : row['last_name'],
             "email" : row['email'],
@@ -65,6 +66,7 @@ class Outfit:
         clothing.user = user.User(user_data)
         return clothing
     
+    @classmethod
     def get_all_by_user_id(cls,id):
         data = {"id" : id}
         query = "SELECT * FROM outfits LEFT JOIN users ON outfits.user_id = users.id WHERE outfits.user_id = %(id)s ;"
@@ -89,7 +91,7 @@ class Outfit:
     @classmethod
     def save_outfit(cls, data):
         query = """INSERT INTO outfits ( name, description, outfit_items, created_at, updated_at, user_id) 
-        VALUES ( %(name)s, %(description)s, %(outfit_items)s, NOW(), NOW(), user_id );
+        VALUES ( %(name)s, %(description)s, %(outfit_items)s, NOW(), NOW(), %(user_id)s );
         """
         return connectToMySQL(cls.DB).query_db(query, data)
     
@@ -124,3 +126,4 @@ class Outfit:
             is_valid = False
             
         return is_valid
+

@@ -3,8 +3,9 @@ from flask import render_template, request, redirect, session, flash
 from FashApp.models import user
 from FashApp.models import clothing_category
 from FashApp.models import clothing_item
-
+from FashApp.models import outfit
 from datetime import datetime
+import json
 
 
 @app.route("/new_outfit")
@@ -16,7 +17,6 @@ def new_outfit():
     all_category = clothing_category.Clothing_categories.get_all()
     for category in all_category:
         clothing_by_category[category.name] = clothing_item.Clothing_items.get_clothing_by_category(category.id)
-    print(category)
     for clothing in clothing_by_category:
         print("Clothing in category", clothing_by_category[clothing])
     return render_template("create_outfit.html", current_user = current_user, clothing_by_category = clothing_by_category, all_category = all_category)
@@ -35,15 +35,34 @@ def remove_first(array):
 def save_new_outfit():
     if 'users_id' not in session:
         return redirect("/")
-    clothingIdArray = []
-    dictionary = request.form.to_dict()
-    print(dictionary)
-    for category in dictionary:
-            clothingIdArray.append(dictionary[category])
-    clothingIdArray = remove_first(clothingIdArray)
-    print(clothingIdArray)
-    # clothing id array contains the ids of the clothing items selected
+    # clothingIdArray code was removed because it didn't account for name, description
+    # if the user didn't want to select a particular item.
+
+    data = {
+        "name" : request.form['name'],
+        "description" : request.form['description'],
+        "user_id" : session['users_id']
+    }
+    categories = clothing_category.Clothing_categories.get_all()
+    
+    outfit_items = []
+    for category in categories:
+        if request.form[category.name] != 'none':
+            outfit_items.append(request.form[category.name])
+            
+    data['outfit_items'] = json.dumps(outfit_items)
+            
+    outfit.Outfit.save_outfit(data)
+    
     return(redirect('/home'))
+
+@app.route('/show_outfit/<int:id>')
+def show_outfit(id):
+    a_outfit = outfit.Outfit.get_one_by_id(id)
+    current_user = user.User.get_one(session['users_id'])
+    all_category = clothing_category.Clothing_categories.get_all()
+    return render_template("view_outfit_items.html", outfit = a_outfit,
+                current_user = current_user, all_category = all_category)
 
 
 
