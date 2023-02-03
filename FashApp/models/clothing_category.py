@@ -1,6 +1,7 @@
 from FashApp.config.mysqlconnection import connectToMySQL
 from FashApp.models import user
 from FashApp.models import clothing_item
+from flask import flash
 
 
 
@@ -74,3 +75,18 @@ class Clothing_categories:
         print("\n __clothing_categories Save Method__")
         query = "INSERT INTO clothing_categories ( name, created_at, updated_at, user_id) VALUES ( %(name)s, NOW(), NOW(), %(user_id)s );"
         return connectToMySQL(cls.DB).query_db( query, data )
+
+    
+    @staticmethod
+    def validate_category(data):
+        is_valid = True
+        if len(data['name']) < 0:
+            flash("Category name is Required")
+            is_valid = False
+        elif len(data['name']) < 3:
+            flash("Category name must be at least 3 characters.")
+            is_valid = False
+        if int(data['user_id']) <= 0:
+            flash("price is Required")
+            is_valid = False
+        return is_valid
