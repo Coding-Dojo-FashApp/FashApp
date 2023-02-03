@@ -35,6 +35,14 @@
                                     {%endfor%}
                                 </ul>
                                 <!-- <p>all_category[0].user.last_name</p> -->
+                                    
+                                    {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <p style="color: black;">{{message}}</p>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endwith %}
                                 <label for="name">Category Name</label>
                                 <input type="text" name="name" >
                                 <button>Create New Category</button>

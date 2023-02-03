@@ -22,11 +22,9 @@ def allowed_file(filename):
 def new_category():
     if 'users_id' not in session:
         return redirect("/")
-    data = { 
-        "user_id": request.form['user_id'],
-        "name": request.form['name'].title()
-    } 
-    clothing_category.Clothing_categories.save(data)
+    if not clothing_category.Clothing_categories.validate_category(request.form):
+        return redirect("/home")
+    clothing_category.Clothing_categories.save(request.form)
     return redirect('/home')
 
 @app.route('/getintocategory/<int:id>/<int:user_id>/', methods=['get'])
